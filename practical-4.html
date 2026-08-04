@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical 4 - Embedding Ocean Products in your website</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Every practical page starts with this link, so nobody gets stranded. -->
+  <p><a class="back-link" href="index.html">All practicals</a></p>
+
+  <p class="eyebrow">Practical 4</p>
+  <h1>Embedding Ocean Products in your website</h1>
+  <p class="intro">
+    Four ways to put content from another website on a web page: fetch
+    <strong>data</strong> and draw a chart, show a finished <strong>picture</strong>,
+    embed a <strong>PDF</strong>, or embed a whole <strong>web page</strong>.
+  </p>
+
+  <!-- The tab buttons. data-tab links each button to a panel below. -->
+  <div class="tabs">
+    <button class="tab-button active" data-tab="chart">1. Tide Gauge Data</button>
+    <button class="tab-button" data-tab="map">2. Ocean Map Image</button>
+    <button class="tab-button" data-tab="calendar">3. Tide Calendar</button>
+    <button class="tab-button" data-tab="webpage">4. Embed a Web Page</button>
+    <!-- The practical class sets this one apart: tabs 1-4 are things to look
+         at, this is the one where participants do the work themselves. -->
+    <button class="tab-button practical" data-tab="practical">5. Practical</button>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 1 - a chart drawn from JSON data
+       ============================================================ -->
+  <div id="chart" class="panel active">
+    <h2 id="station-name">Tide Gauge</h2>
+    <p id="chart-status" class="status">Loading...</p>
+    <canvas id="tide-chart"></canvas>
+
+    <!-- data-code names the block this button shows and hides. -->
+    <button class="code-button" data-code="chart-code">Show code</button>
+    <pre id="chart-code" hidden><code>// Packages used: chart.js       install it once with:  npm install chart.js
+import Chart from 'chart.js/auto'
+
+// fetch is built into every browser, so nothing to install for that part.
+// The data arrives as JSON, so we fetch it and pick the parts we need.
+
+// 1. Ask the API, and read the reply as JSON
+const response = await fetch('https://ocean-obs-api.spc.int/insitu/get_data/station/fong?limit=1000')
+const result = await response.json()
+
+// 2. Sort oldest first, so the line reads left to right in time
+const records = result.data.slice().sort((a, b) =&gt; a.time &lt; b.time ? -1 : 1)
+
+// 3. Throw away error readings (tide gauges mark these as -999)
+const good = records.filter(r =&gt; r['sea_level (m)'] !== Number(result.bad_data))
+
+// 4. Split into x axis labels and y axis values
+const labels = good.map(r =&gt; r.time.slice(0, 16).replace('T', ' '))
+const values = good.map(r =&gt; r['sea_level (m)'])
+
+// 5. Hand both lists to Chart.js, which does the drawing
+new Chart(document.getElementById('tide-chart'), {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{ label: 'Sea level (m)', data: values, borderColor: '#2a78d6' }]
+  }
+})</code></pre>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 2 - a map picture embedded in an iframe
+       ============================================================ -->
+  <div id="map" class="panel">
+    <h2>Ocean Map</h2>
+    <p id="map-status" class="status">Loading...</p>
+    <!-- practical-4.js puts the URL into this image's src -->
+    <img id="ocean-map" alt="Ocean map from the SPC plotter service">
+
+    <button class="code-button" data-code="map-code">Show code</button>
+    <pre id="map-code" hidden><code>// Packages used: none. Plain HTML and JavaScript, nothing to install.
+
+// There is no fetch here either. The plotter has already drawn the map, so we are
+// given a finished picture - setting src makes the browser download it.
+
+const image = document.getElementById('ocean-map')
+
+// The load event tells us the picture has arrived
+image.onload = () =&gt; {
+  status.textContent = 'Image loaded from the plotter service.'
+}
+
+// If the URL is wrong the picture never arrives, so say so
+image.onerror = () =&gt; {
+  status.textContent = 'Could not load that image. Check the URL.'
+}
+
+// Setting src last means the two handlers above are ready before it loads
+image.src = 'https://ocean-plotter.spc.int/plotter/getMap?region=6&amp;layer_map=5'
+          + '&amp;time=2026-08-02T00:00:00Z&amp;unit=metric&amp;use_cache=True&amp;token=null'</code></pre>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 3 - a PDF, shown two ways: as a link and embedded
+       ============================================================ -->
+  <div id="calendar" class="panel">
+    <h2>Tide Calendar</h2>
+
+    <!-- Way 1: an ordinary link. target="_blank" opens it in a new browser
+         tab, so the person does not lose our page. The button beside it does
+         the same job - data-link says which link's address to open. -->
+    <p class="pdf-actions">
+      <a id="calendar-link" target="_blank" rel="noopener">
+        Open the tide calendar in a new tab
+      </a>
+      <button class="open-button" data-link="calendar-link">Open in new tab</button>
+    </p>
+
+    <!-- Way 2: the same PDF shown inside our page. practical-4.js sets the src. -->
+    <p id="calendar-status" class="status">Loading...</p>
+    <iframe id="calendar-pdf" title="Tide calendar PDF"></iframe>
+
+    <button class="code-button" data-code="calendar-code">Show code</button>
+    <pre id="calendar-code" hidden><code>// Packages used: none. Every browser already has a built-in PDF viewer.
+
+&lt;!-- A PDF is not fetched or parsed either. We only say where it lives,
+     twice, and let the browser's own PDF viewer do the rest. --&gt;
+
+&lt;!-- Way 1 - a link. target="_blank" opens it in a new browser tab.
+     rel="noopener" is a safety habit whenever you use target="_blank". --&gt;
+&lt;a href="calendar.pdf" target="_blank" rel="noopener"&gt;Open the tide calendar&lt;/a&gt;
+
+&lt;!-- Way 2 - the same PDF inside our page. This is an iframe, not an img,
+     because a PDF has pages to scroll rather than being one picture. --&gt;
+&lt;iframe src="calendar.pdf" title="Tide calendar PDF"&gt;&lt;/iframe&gt;
+
+
+// In practical-4.js we only fill in the two addresses:
+const url = 'https://ocean-library.spc.int/library/media/b4da9347d92b480e882f63fc583d680e_pdf.pdf'
+
+document.getElementById('calendar-link').href = url   // Way 1
+document.getElementById('calendar-pdf').src = url     // Way 2
+
+// The button beside the link opens the same address itself
+window.open(url, '_blank', 'noopener')</code></pre>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 4 - a whole web page embedded in an iframe
+       ============================================================ -->
+  <div id="webpage" class="panel">
+    <h2>Ocean Portal Explorer</h2>
+
+    <p>
+      The same iframe that held the PDF can hold a whole web page - here the Ocean
+      Portal explorer, still fully clickable. The long <code>share=</code> part of
+      the address is the saved view.
+    </p>
+
+    <p class="pdf-actions">
+      <a id="explorer-link" target="_blank" rel="noopener">
+        Open the explorer in a new tab
+      </a>
+      <button class="open-button" data-link="explorer-link">Open in new tab</button>
+    </p>
+
+    <p id="webpage-status" class="status">Loading...</p>
+    <iframe id="ocean-explorer" title="Pacific Ocean Portal explorer"></iframe>
+
+    <button class="code-button" data-code="webpage-code">Show code</button>
+    <pre id="webpage-code" hidden><code>// Packages used: none. An iframe is part of HTML itself.
+
+&lt;!-- One tag is the whole trick. The other site loads and runs inside this
+     box, keeping its own scrolling, buttons and map controls. --&gt;
+&lt;iframe id="ocean-explorer" title="Pacific Ocean Portal explorer"&gt;&lt;/iframe&gt;
+
+
+// And in practical-4.js, the same one line as the PDF:
+document.getElementById('ocean-explorer').src =
+  'https://oceanportal.spc.int/explorer?share=N4IgNghgngpgTgZxALgNqgJYBMUGYA0408A...'
+
+// Worth knowing: a site can refuse to be embedded. Sites send a header
+// (X-Frame-Options or Content-Security-Policy: frame-ancestors) that tells
+// the browser who may frame them, and the browser obeys it. If the box stays
+// blank, that is usually why - not a mistake in your code. Always offer a
+// plain link as well, as this tab does, so there is a way through.</code></pre>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 5 - PRACTICAL. Four steps: paste a URL, press the button.
+       ============================================================ -->
+  <div id="practical" class="panel">
+
+    <!-- ---------------- Step 1 ---------------- -->
+    <h2>Step 1 - Plot data from a station</h2>
+
+    <p>
+      Choose whether your station is a tide gauge or a wave buoy, paste its
+      URL, then press <strong>Plot data</strong>.
+    </p>
+
+    <div class="try">
+      <!-- The type tells the page which measurement to read from the data:
+           a tide gauge sends sea level, a wave buoy sends wave height. -->
+      <select id="try-type">
+        <option value="sea_level (m)">Tide gauge</option>
+        <option value="significant_wave_height">Wave buoy</option>
+      </select>
+
+      <input id="try-data-url" type="text"
+             value="https://ocean-obs-api.spc.int/insitu/get_data/station/fong?limit=1000">
+      <button id="try-data-button">Plot data</button>
+    </div>
+
+
+    <p id="try-data-status" class="status">Press Plot data to begin.</p>
+    <!-- hidden until the button is pressed, so the page stays tidy -->
+    <h3 id="try-station-name"></h3>
+    <canvas id="try-chart" hidden></canvas>
+
+    <!-- ---------------- Step 2 ---------------- -->
+    <h2>Step 2 - Show a map image</h2>
+
+    <p>
+      Two parts of the URL below are worth changing, then press
+      <strong>Show image</strong>:
+    </p>
+
+    <ul class="tweaks">
+      <li>
+        <code>time=2026-08-02</code> - the date of the map.
+      </li>
+      <li>
+        <code>region=6</code> - the country. Look up the numbers in the
+        <a href="https://ocean-middleware.spc.int/middleware/api/country/?format=json"
+           target="_blank" rel="noopener">country list</a>.
+      </li>
+    </ul>
+
+    <div class="try">
+      <input id="try-image-url" type="text"
+             value="https://ocean-plotter.spc.int/plotter/getMap?region=6&amp;layer_map=5&amp;time=2026-08-02T00:00:00Z&amp;unit=metric&amp;use_cache=True&amp;token=null">
+      <button id="try-image-button">Show image</button>
+    </div>
+
+    <p id="try-image-status" class="status">Press Show image to begin.</p>
+    <!-- hidden until the button is pressed, so the page stays tidy -->
+    <img id="try-map" alt="Your map image" hidden>
+
+    <!-- ---------------- Step 3 ---------------- -->
+    <h2>Step 3 - Embed a PDF</h2>
+
+    <p>
+      Paste the address of a tide calendar PDF, then press <strong>Show PDF</strong>.
+      You get both a link that opens it in a new tab and a copy embedded in the page.
+    </p>
+
+    <div class="try">
+      <input id="try-pdf-url" type="text"
+             value="https://ocean-library.spc.int/library/media/b4da9347d92b480e882f63fc583d680e_pdf.pdf">
+      <button id="try-pdf-button">Show PDF</button>
+    </div>
+
+
+    <p id="try-pdf-status" class="status">Press Show PDF to begin.</p>
+    <!-- all three hidden until the button is pressed -->
+    <p class="pdf-actions">
+      <a id="try-pdf-link" target="_blank" rel="noopener" hidden>Open this PDF in a new tab</a>
+      <button class="open-button" data-link="try-pdf-link" hidden>Open in new tab</button>
+    </p>
+    <iframe id="try-pdf" title="Your PDF" hidden></iframe>
+
+    <!-- ---------------- Step 4 ---------------- -->
+    <h2>Step 4 - Embed a whole web page</h2>
+
+    <p>
+      Below is the Bureau of Meteorology's printable tide table for Port Vila . Paste
+      any page address, then press <strong>Show page</strong>.
+    </p>
+
+    <ul class="tweaks">
+      <li>
+        <code>aac=INT_TP027</code> and <code>region=VUT</code> - which station.
+      </li>
+      <li>
+        <code>date=4-8-2026</code> and <code>days=7</code> - the week to show.
+      </li>
+    </ul>
+
+    <p class="note">
+      If the box stays blank, that site has told the browser it will not be
+      embedded. Use the link instead - it is not a fault in your page.
+    </p>
+
+    <div class="try">
+      <input id="try-page-url" type="text"
+             value="https://www.bom.gov.au/australia/tides/print.php?aac=INT_TP027&type=tide&date=4-8-2026&region=VUT&tz=Pacific/Efate&tz_js=+11&days=7">
+      <button id="try-page-button">Show page</button>
+    </div>
+
+    <p id="try-page-status" class="status">Press Show page to begin.</p>
+    <!-- all three hidden until the button is pressed -->
+    <p class="pdf-actions">
+      <a id="try-page-link" target="_blank" rel="noopener" hidden>Open this page in a new tab</a>
+      <button class="open-button" data-link="try-page-link" hidden>Open in new tab</button>
+    </p>
+    <iframe id="try-page" title="Your web page" hidden></iframe>
+
+  </div>
+
+
+  <!-- type="module" lets us use import in practical-4.js -->
+  <script type="module" src="practical-4.js"></script>
+
+</body>
+</html>

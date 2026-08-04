@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<station>
+  <id>WB-014</id>
+  <name>Nukualofa Buoy 1</name>
+  <country>Tonga</country>
+  <type>Wave Buoy</type>
+  <location>
+    <latitude>-21.14</latitude>
+    <longitude>-175.20</longitude>
+  </location>
+  <installed>2019-03-12</installed>
+  <lastServiced>2026-06-02</lastServiced>
+  <status>Active</status>
+</station>

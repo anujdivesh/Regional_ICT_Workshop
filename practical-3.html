@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical 3 - API Integration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <p><a class="back-link" href="index.html">All practicals</a></p>
+
+  <p class="eyebrow">Practical 3</p>
+  <h1>API Integration</h1>
+  <p class="intro">
+    An <strong>API</strong> is a URL that answers with data instead of a page.
+    Reading one, calling it from a web page, and turning the reply into something
+    a person can use.
+  </p>
+
+  <div class="tabs">
+    <button class="tab-button active" data-tab="anatomy">1. Reading a URL</button>
+    <button class="tab-button" data-tab="widget">2. Live Sea Level</button>
+    <button class="tab-button practical" data-tab="practical">3. Practical</button>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 1 - the parts of an API URL
+       ============================================================ -->
+  <div id="anatomy" class="panel active">
+    <h2>Reading a URL</h2>
+
+    <p>
+      Paste an API address into a browser and you get data, not a page. Every
+      part of it means something:
+    </p>
+
+    <pre class="url-anatomy"><code>https://ocean-obs-api.spc.int/insitu/get_data/station/auasi?limit=1</code></pre>
+
+    <table class="formats-table">
+      <thead>
+        <tr><th>This part</th><th>Called</th><th>What it does</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>ocean-obs-api.spc.int</code></td>
+          <td>Host</td>
+          <td>Which service you are asking. Nothing else matters if this is wrong.</td>
+        </tr>
+        <tr>
+          <td><code>/insitu/get_data/station/</code></td>
+          <td>Path</td>
+          <td>Which question you are asking it - here, observation data.</td>
+        </tr>
+        <tr>
+          <td><code>auasi</code></td>
+          <td>Station</td>
+          <td>Which station. This one is Samoa, Auasi.</td>
+        </tr>
+        <tr>
+          <td><code>?limit=1</code></td>
+          <td>Query</td>
+          <td>Options, after the <code>?</code>. This asks for one reading. Join more with <code>&amp;</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The reply is JSON - the same format as the
+      <a href="practical-2.html">Practical 2</a> forecast file. Which means the
+      skill is the same one: find the keys you need, ignore the rest.
+    </p>
+
+    <p class="note">
+      Station codes that work: <code>auasi</code> (Samoa, Auasi),
+      <code>upol</code> (Samoa, Apia), <code>fong</code> (Tuvalu),
+      <code>viti</code> (Fiji, Suva), <code>tara</code> (Kiribati, Tarawa),
+      <code>luga</code> (Vanuatu, Luganville), <code>lomb</code> (PNG, Manus Is).
+    </p>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 2 - a live widget built on that URL
+       ============================================================ -->
+  <div id="widget" class="panel">
+    <h2>Live Sea Level</h2>
+
+    <p>
+      The whole point of an API: this reading was not typed by anyone. The page
+      asked for it when you opened it.
+    </p>
+
+    <!-- practical-3.js fills this in -->
+    <div id="sea-level-widget" class="widget">
+      <p class="widget-value">Loading...</p>
+    </div>
+
+    <p id="widget-status" class="status">Asking the API...</p>
+
+    <button class="code-button" data-code="widget-code">Show code</button>
+    <pre id="widget-code" hidden><code>// Packages used: none. fetch is built into every browser.
+
+const stationId = 'auasi'   // change this to another station and reload
+
+// 1. Ask the API for the one most recent reading
+const response = await fetch(
+  'https://ocean-obs-api.spc.int/insitu/get_data/station/' + stationId + '?limit=1'
+)
+
+// 2. A reply arrived - but check it is not an error page before trusting it
+if (!response.ok) {
+  throw new Error('the server replied ' + response.status)
+}
+
+// 3. Read the reply as JSON
+const result = await response.json()
+
+// 4. Pick out the parts we want. Tide gauges send newest first, so [0]
+//    is the latest reading.
+const latest = result.data[0]
+const seaLevel = latest['sea_level (m)']
+
+// 5. Put it on the page
+document.getElementById('sea-level-widget').textContent =
+  result.display_name + ': ' + seaLevel + ' m at ' + latest.time</code></pre>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 3 - PRACTICAL. Call the API yourself.
+       ============================================================ -->
+  <div id="practical" class="panel">
+    <h2>Your turn - call the API</h2>
+
+    <p>
+      Pick a station, choose how many readings to ask for, and press
+      <strong>Call the API</strong>. You get the reading and the raw reply.
+    </p>
+
+    <div class="try">
+      <select id="try-station">
+        <option value="auasi">auasi - Samoa, Auasi</option>
+        <option value="upol">upol - Samoa, Apia</option>
+        <option value="fong">fong - Tuvalu, Fongafale</option>
+        <option value="viti">viti - Fiji, Suva</option>
+        <option value="tara">tara - Kiribati, Tarawa</option>
+        <option value="luga">luga - Vanuatu, Luganville</option>
+        <option value="lomb">lomb - PNG, Manus Is</option>
+      </select>
+
+      <select id="try-limit">
+        <option value="1">limit=1 - the latest reading</option>
+        <option value="5">limit=5 - the last five</option>
+        <option value="50">limit=50 - the last fifty</option>
+      </select>
+
+      <p class="try-label">The URL this builds:</p>
+      <pre id="try-url"><code>Choose a station above.</code></pre>
+
+      <button id="try-button">Call the API</button>
+    </div>
+
+    <p id="try-status" class="status">Press Call the API to begin.</p>
+
+    <div id="try-result" hidden>
+      <h3>The latest reading</h3>
+      <div id="try-widget" class="widget"></div>
+
+      <h3>The whole reply</h3>
+      <p>
+        What actually came back. Most of an API reply is usually things you do not
+        need - the skill is finding the two or three keys you do.
+      </p>
+      <pre id="try-json" class="file-content"><code></code></pre>
+    </div>
+
+    <p class="note">
+      Try a station code that does not exist - type one into the address bar with
+      a wrong code. An API that cannot answer still answers, with a number:
+      <code>404</code> means no such station. That is why step 2 in the code on
+      tab 2 checks <code>response.ok</code> before reading anything.
+    </p>
+  </div>
+
+
+  <script type="module" src="practical-3.js"></script>
+
+</body>
+</html>

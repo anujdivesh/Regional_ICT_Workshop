@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COSPPac ICT Workshop - Practicals</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- The logo and the heading sit on one line, stacking on a narrow screen.
+       practical-*.js is not loaded here, so the src is written in directly. -->
+  <header class="page-header">
+    <img class="logo" src="assets/SPCLOGO.webp"
+         alt="Pacific Community (SPC)">
+    <h1>COSPPac Regional ICT Workshop</h1>
+  </header>
+
+  <p class="intro">
+    Four hands-on sessions. Pick one to open its page - each has worked examples
+    you can look at, the code behind them, and boxes to try your own URLs in.
+  </p>
+
+  <!-- ============================================================
+       THE PRACTICAL CARDS
+
+       Each card is one big link, so the whole tile is clickable rather than
+       just the words. The "Open practical" part is a span dressed up as a
+       button: a real <button> is not allowed inside a link, and it does not
+       need to be one - the link already does the navigating.
+       ============================================================ -->
+  <div class="cards">
+
+    <a class="card" href="practical-1.html">
+      <span class="card-number">Practical 1</span>
+      <span class="card-title">System Maintenance and Planning</span>
+      <span class="card-text">
+        Keeping a system healthy: reading logs, spotting the warning signs early,
+        and planning the routine checks that stop small faults becoming outages.
+      </span>
+      <span class="card-button">Open practical</span>
+    </a>
+
+    <a class="card" href="practical-2.html">
+      <span class="card-number">Practical 2</span>
+      <span class="card-title">Data Formats and Storage</span>
+      <span class="card-text">
+        The formats ocean data arrives in - CSV, JSON, GeoJSON and XML - what
+        each is good at, and how to open and plot them.
+      </span>
+      <span class="card-button">Open practical</span>
+    </a>
+
+    <a class="card" href="practical-3.html">
+      <span class="card-number">Practical 3</span>
+      <span class="card-title">API Integration</span>
+      <span class="card-text">
+        Reading an API address, calling it from a web page, and turning the reply
+        into a live sea level reading anyone can understand.
+      </span>
+      <span class="card-button">Open practical</span>
+    </a>
+
+    <a class="card" href="practical-4.html">
+      <span class="card-number">Practical 4</span>
+      <span class="card-title">Embedding Ocean Products in your website</span>
+      <span class="card-text">
+        Four ways to put content from another website on your own page: fetch
+        data and draw a chart, show a finished picture, embed a PDF, or embed a
+        whole web page.
+      </span>
+      <span class="card-button">Open practical</span>
+    </a>
+
+  </div>
+
+  <!-- The year is written by index.js, so the footer does not go stale. -->
+  <footer class="page-footer">
+    <p>&copy; <span id="year">2026</span> The Pacific Community (SPC). All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="index.js"></script>
+
+</body>
+</html>

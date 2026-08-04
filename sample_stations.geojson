@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "station_id": "auasi",
+        "name": "Samoa, Auasi - Tide Gauge",
+        "station_type": "Tide Gauge"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-170.57307, -14.271544]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station_id": "upol",
+        "name": "Samoa, Apia - Tide Gauge",
+        "station_type": "Tide Gauge"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-171.7613, -13.8268]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station_id": "mala",
+        "name": "Palau, Malakal - Tide Gauge",
+        "station_type": "Tide Gauge"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [134.4502, 7.3282]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station_id": "SPOT-0303",
+        "name": "Tuvalu, Funafuti - Wave Buoy",
+        "station_type": "Wave Buoy"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [179.05518, -8.591]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station_id": "SPOT-0301",
+        "name": "Kiribati, Tarawa - Wave Buoy",
+        "station_type": "Wave Buoy"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [173.01658, 1.33658]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "station_id": "SPOT-0403",
+        "name": "Solomon Islands - Wave Buoy",
+        "station_type": "Wave Buoy"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [159.94742, -9.42227]
+      }
+    }
+  ]
+}

@@ -1,0 +1,687 @@
+/* style.css - kept deliberately short and readable. */
+
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  color: #0b0b0b;
+  background: #fcfcfb;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+h2 {
+  font-size: 17px;
+}
+
+.intro {
+  color: #52514e;
+}
+
+/* --- The index page header: logo beside the title --- */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;         /* stacks on a narrow screen */
+}
+
+.page-header h1 {
+  margin-top: 0;
+}
+
+/* height, with width auto, keeps the logo's own proportions whatever its
+   pixel size. The general img rule adds a border, which a logo should not have. */
+.logo {
+  height: 64px;
+  width: auto;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+}
+
+/* The small "Practical 2" line above a page's heading */
+.eyebrow {
+  margin-bottom: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #2a78d6;
+}
+
+h1 + .intro,
+.eyebrow + h1 {
+  margin-top: 4px;
+}
+
+/* The "All practicals" link at the top of every practical page. Orange, and
+   shaped like a button, so the way back is obvious from across a room -
+   nothing else on these pages is orange. */
+.back-link {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: #e07b16;
+  border-radius: 4px;
+}
+
+.back-link::before {
+  content: "\2190\00a0";   /* a left arrow and a space */
+}
+
+.back-link:hover {
+  background: #c26710;
+}
+
+/* --- The practical cards on the index page --- */
+
+/* auto-fit means one column on a phone and two on a wider screen, with no
+   media query needed: the browser fits as many 300px columns as it can. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+/* Each card is a link, so it needs display:flex to stack its lines. */
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: #fff;
+  text-decoration: none;
+  background: #2a78d6;
+  border-radius: 6px;
+}
+
+.card:hover {
+  background: #256abf;
+}
+
+.card-number {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.card-title {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.card-text {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* A span dressed up as a button - see the comment in index.html for why it is
+   not a real <button>. margin-top:auto pins it to the bottom of the card, so
+   the buttons line up across cards even though the descriptions differ in
+   length. */
+.card-button {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+}
+
+.card-button::after {
+  content: "\00a0\2192";   /* a space and a right arrow */
+}
+
+/* The whole card is the link, so hovering anywhere lights the button up */
+.card:hover .card-button {
+  color: #2a78d6;
+  background: #fff;
+  border-color: #fff;
+}
+
+/* --- The footer on the index page --- */
+.page-footer {
+  margin-top: 40px;
+  padding-top: 18px;
+  font-size: 13px;
+  color: #898781;
+  text-align: center;
+  border-top: 1px solid #e1e0d9;
+}
+
+/* --- The tab buttons --- */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid #e1e0d9;
+  margin-top: 24px;
+}
+
+.tab-button {
+  padding: 10px 18px;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #52514e;
+  border-bottom: 3px solid transparent;
+}
+
+/* The tab that is currently open */
+.tab-button.active {
+  color: #2a78d6;
+  border-bottom-color: #2a78d6;
+  font-weight: 600;
+}
+
+/* The Practical tab. A green outline says "this is the hands-on one", and the
+   small gap sets it apart from the four demo tabs without stranding it at the
+   far edge of the page. */
+.tab-button.practical {
+  margin-left: 12px;
+  margin-bottom: 4px;
+  padding: 8px 16px;
+  color: #1f8a5f;
+  font-weight: 600;
+  background: none;
+  border: 2px solid #1f8a5f;
+  border-radius: 4px;
+}
+
+.tab-button.practical:hover {
+  color: #19714e;
+  background: #eaf6f0;
+}
+
+/* When it is open, fill it in rather than taking the blue underline the other
+   tabs get - the more specific selector wins over .tab-button.active. */
+.tab-button.practical.active {
+  color: #fff;
+  background: #1f8a5f;
+  border-color: #1f8a5f;
+}
+
+/* --- The tab contents --- */
+/* Panels are hidden until their tab is clicked. */
+.panel {
+  display: none;
+  padding-top: 20px;
+}
+
+.panel.active {
+  display: block;
+}
+
+.status {
+  color: #898781;
+  font-size: 14px;
+}
+
+/* The map picture. The plotter returns a big image and each region is a
+   different size, so we let it shrink to the width of the page. Setting
+   height to auto keeps the picture from being squashed. */
+img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #e1e0d9;
+  background: #fff;
+}
+
+/* The frame holding the PDF. Unlike a picture, a PDF needs to be told how
+   tall to be - the browser's PDF viewer then fits the pages inside. */
+iframe {
+  width: 100%;
+  height: 700px;
+  border: 1px solid #e1e0d9;
+  background: #fff;
+}
+
+a {
+  color: #2a78d6;
+}
+
+/* --- "Show code" button and the block it reveals --- */
+
+/* Outlined in the same blue as the other buttons, so it is easy to spot from
+   the back of a training room, but still clearly a secondary action.
+   display:block puts it on its own line, below the chart or picture. */
+.code-button {
+  display: block;
+  margin-top: 18px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #2a78d6;
+  background: #eaf2fc;
+  border: 2px solid #2a78d6;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.code-button:hover {
+  color: #fff;
+  background: #2a78d6;
+}
+
+/* Code is written on purpose-made lines, so we do not wrap it - long lines
+   scroll sideways inside the box instead of reflowing and losing their shape. */
+pre {
+  margin: 10px 0 0;
+  padding: 14px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #0b0b0b;
+  background: #f0efec;
+  border: 1px solid #e1e0d9;
+  border-left: 3px solid #2a78d6;
+  border-radius: 4px;
+}
+
+/* Inside a pre, code should not repeat the inline code box styling above */
+pre code {
+  padding: 0;
+  font-size: inherit;
+  background: none;
+}
+
+/* --- The PDF link and its "Open in new tab" button, side by side --- */
+.pdf-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.open-button {
+  padding: 7px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: #2a78d6;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.open-button:hover {
+  background: #256abf;
+}
+
+/* --- Practical tab --- */
+
+/* The station codes and URL bits mentioned in the instructions */
+code {
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  background: #f0efec;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* The "change this bit of the URL" list in Step 2 */
+.tweaks {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.tweaks li {
+  margin-bottom: 6px;
+}
+
+/* --- The system log on Practical 1 --- */
+
+/* Dark, monospaced and scrolling in its own box, so three days of log do not
+   push the questions off the screen. Log lines are aligned by spaces, so they
+   must not wrap - overflow-x lets long ones scroll instead. */
+.log-view {
+  max-height: 460px;
+  margin: 16px 0;
+  padding: 14px 16px;
+  overflow: auto;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre;
+  color: #d8d6cf;
+  background: #23231f;
+  border-radius: 4px;
+}
+
+/* The day headings, the banner and the closing note */
+.log-aside {
+  color: #8a877e;
+}
+
+/* The severity words. Green reads as "nothing to do here", so the eye skips
+   them and lands on the amber and red - which is the point. */
+.level-ok      { color: #6fbf8b; }
+.level-warning { color: #e8b34a; font-weight: 600; }
+.level-error   { color: #f0776a; font-weight: 600; }
+
+/* --- Numbered group questions --- */
+.questions {
+  padding-left: 22px;
+  margin: 12px 0;
+}
+
+.questions li {
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+
+/* The comparison tables ("which format for which job", "ask / do not ask").
+   The wrapper scrolls sideways on a phone rather than squashing the columns. */
+.formats-table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  margin: 16px 0;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.formats-table th,
+.formats-table td {
+  padding: 9px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #e1e0d9;
+}
+
+.formats-table th {
+  font-size: 13px;
+  color: #52514e;
+  background: #f0efec;
+  border-bottom: 2px solid #c3c2b7;
+}
+
+/* --- One sample file, shown and downloadable --- */
+
+/* These headings are filenames, so they read better monospaced */
+#csv h2, #json h2, #geojson h2, #xml h2 {
+  font-family: ui-monospace, monospace;
+  font-size: 15px;
+}
+
+/* The little CSV / JSON / XML tag next to a filename */
+.badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 7px;
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+  color: #fff;
+  background: #52514e;
+  border-radius: 3px;
+}
+
+/* The green "run this" button, matching the Practical tab it sits on */
+.run-button {
+  padding: 9px 18px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: #1f8a5f;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.run-button::before {
+  content: "\25B6\00a0";   /* a play triangle and a space */
+}
+
+.run-button:hover {
+  background: #19714e;
+}
+
+/* A link that saves a file, dressed as a button so it reads as an action */
+.download-button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: #2a78d6;
+  border-radius: 4px;
+}
+
+.download-button:hover {
+  background: #256abf;
+}
+
+.download-button::before {
+  content: "\2193\00a0";   /* a down arrow and a space */
+}
+
+/* These files are short, but a taller one should not push the page around */
+.file-content {
+  max-height: 420px;
+  overflow: auto;
+}
+
+/* --- The live reading from an API --- */
+.widget {
+  padding: 20px 22px;
+  margin: 16px 0;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e1e0d9;
+  border-top: 3px solid #2a78d6;
+  border-radius: 4px;
+}
+
+.widget-value {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: #2a78d6;
+}
+
+.widget-label {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #52514e;
+}
+
+/* The example URL on the "Reading a URL" tab, given room to breathe because the
+   table underneath refers to its parts one at a time. */
+.url-anatomy {
+  padding: 18px 16px;
+  font-size: 13px;
+}
+
+/* Terminal output, dark like a terminal. The columns pandas prints are aligned
+   with spaces, so this must not wrap either. */
+.terminal {
+  max-height: 460px;
+  overflow: auto;
+  color: #d8d6cf;
+  background: #23231f;
+  border: none;
+  border-left: 3px solid #1f8a5f;
+}
+
+/* --- Syntax colouring --- */
+/* Prism's own theme is not imported, because these few rules match the rest of
+   the page and nothing else in its stylesheet is wanted. Prism only adds the
+   class names; the colours are ours. */
+.token.comment,
+.token.triple-quoted-string {
+  color: #8a877e;
+  font-style: italic;
+}
+
+.token.string           { color: #1f8a5f; }
+.token.number           { color: #b3541e; }
+.token.keyword          { color: #a341b8; font-weight: 600; }
+.token.builtin          { color: #2a78d6; }
+.token.function         { color: #2a78d6; }
+.token.decorator        { color: #b3541e; }
+.token.operator,
+.token.punctuation      { color: #52514e; }
+
+/* --- A code block you can type in --- */
+.editable-code code {
+  display: block;
+  outline: none;               /* the box below shows focus instead */
+  white-space: pre;
+}
+
+.editable-code:focus-within {
+  border-left-color: #1f8a5f;
+  box-shadow: 0 0 0 2px #a7d9c3;
+}
+
+/* A row of buttons side by side, e.g. Reset next to Download */
+.button-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* In a row, the code-button should not take a line of its own */
+.button-row .code-button {
+  display: inline-block;
+  margin-top: 0;
+}
+
+/* --- A table participants type into --- */
+
+/* Room to write, and a row label column that does not squeeze the answers */
+.worksheet td {
+  min-width: 160px;
+  height: 46px;
+}
+
+.worksheet tbody th {
+  width: 110px;
+  text-align: left;
+  font-size: 14px;
+  background: #f7f6f3;
+  border-bottom: 1px solid #e1e0d9;
+}
+
+.worksheet .col-who {
+  width: 190px;
+}
+
+/* An empty cell has to look like somewhere you can write, or nobody writes */
+.worksheet td:empty {
+  background: #fdfdfc;
+  box-shadow: inset 0 -1px 0 #c3c2b7;
+}
+
+.worksheet td:hover {
+  background: #f7fafd;
+}
+
+/* The browser's default focus ring on a table cell is easy to miss */
+.worksheet td:focus {
+  outline: 2px solid #2a78d6;
+  outline-offset: -2px;
+  background: #fff;
+}
+
+/* A short warning or aside, e.g. "some sites refuse to be embedded" */
+.note {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #52514e;
+  background: #fdf7e3;
+  border-left: 3px solid #d9a520;
+  border-radius: 3px;
+}
+
+/* The box holding a URL and its button */
+.try {
+  background: #f0efec;
+  padding: 14px;
+  margin: 16px 0;
+  border-radius: 4px;
+}
+
+/* "In the terminal:" above a command block inside a .try box */
+.try-label {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* A command block inside a .try box needs to stand out from the box itself,
+   which is already the same grey. */
+.try pre {
+  margin: 0;
+  background: #fff;
+}
+
+/* The tide gauge / wave buoy dropdown */
+.try select {
+  display: block;
+  margin-bottom: 8px;
+  padding: 7px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 1px solid #c3c2b7;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.try input {
+  width: 100%;
+  padding: 8px;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  border: 1px solid #c3c2b7;
+  border-radius: 3px;
+  box-sizing: border-box;   /* keep the padding inside the 100% width */
+}
+
+.try button {
+  margin-top: 10px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: #2a78d6;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.try button:hover {
+  background: #256abf;
+}
+
+h3 {
+  font-size: 15px;
+  margin-bottom: 4px;
+}

@@ -1,0 +1,29 @@
+=================================================================
+ OCEAN PORTAL SERVER - backup log
+ Host: ocean-portal-01      Timezone: UTC+12
+ Two weeks of the nightly backup, and the copy sent off-site.
+=================================================================
+
+Thu 17 Apr  02:25 OK       Backup finished. 41 GB saved to the backup drive.
+Thu 17 Apr  02:30 OK       Copy sent to the off-site office. Received.
+Fri 18 Apr  02:24 OK       Backup finished. 41 GB saved to the backup drive.
+Fri 18 Apr  02:30 OK       Copy sent to the off-site office. Received.
+Mon 21 Apr  02:26 OK       Backup finished. 42 GB saved to the backup drive.
+Mon 21 Apr  02:30 OK       Copy sent to the off-site office. Received.
+Tue 22 Apr  02:24 OK       Backup finished. 42 GB saved to the backup drive.
+Tue 22 Apr  02:31 OK       Copy sent to the off-site office. Received.
+Wed 23 Apr  02:25 OK       Backup finished. Saved to the backup drive.
+Wed 23 Apr  02:31 WARNING  Could not reach the off-site office. Will retry.
+Thu 24 Apr  02:25 OK       Backup finished. Saved to the backup drive.
+Thu 24 Apr  02:31 WARNING  Could not reach the off-site office. 2 days.
+Fri 25 Apr  02:25 OK       Backup finished. Saved to the backup drive.
+Fri 25 Apr  02:31 WARNING  Could not reach the off-site office. 3 days.
+Mon 28 Apr  02:26 OK       Backup finished. Saved to the backup drive.
+Mon 28 Apr  02:31 WARNING  Could not reach the off-site office. 6 days.
+Tue 29 Apr  02:25 OK       Backup finished. Saved to the backup drive.
+Tue 29 Apr  02:31 WARNING  Could not reach the off-site office. 7 days.
+Wed 30 Apr  02:25 WARNING  Backup finished, but with read errors on the backup drive.
+Wed 30 Apr  02:31 WARNING  Could not reach the off-site office. 8 days.
+Wed 30 Apr  09:15 ERROR    Backup drive has failed. Copies on it cannot be read.
+Wed 30 Apr  09:20 ERROR    Backup drive has failed. Copies on it cannot be read.
+
