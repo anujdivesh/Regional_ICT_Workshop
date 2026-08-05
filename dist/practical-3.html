@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical 3 - API Integration</title>
+  <script type="module" crossorigin src="/ict-workshop/assets/practical3-HtfxIswe.js"></script>
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/style-CSnia0YI.js">
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/shared-eRITiLAf.js">
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/prism-CBfTwKG-.js">
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/auto-CieodS8Z.js">
+  <link rel="stylesheet" crossorigin href="/ict-workshop/assets/style-Cdva-XA-.css">
+</head>
+<body>
+
+  <p><a class="back-link" href="index.html">All practicals</a></p>
+
+  <p class="eyebrow">Practical 3</p>
+  <h1>API Integration</h1>
+  <p class="intro">
+    An <strong>API</strong> is a URL that answers with data instead of a page.
+    Reading one, calling it from a web page, and turning the reply into something
+    a person can use.
+  </p>
+
+  <div class="tabs">
+    <button class="tab-button active" data-tab="anatomy">1. Reading a URL</button>
+    <button class="tab-button" data-tab="widget">2. Live Sea Level</button>
+    <button class="tab-button practical" data-tab="practical">3. Practical</button>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 1 - the parts of an API URL
+       ============================================================ -->
+  <div id="anatomy" class="panel active">
+    <h2>Reading a URL</h2>
+
+    <p>
+      Paste an API address into a browser and you get data, not a page. Every
+      part of it means something:
+    </p>
+
+    <pre class="url-anatomy"><code>https://ocean-obs-api.spc.int/insitu/get_data/station/auasi?limit=1</code></pre>
+
+    <table class="formats-table">
+      <thead>
+        <tr><th>This part</th><th>Called</th><th>What it does</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>ocean-obs-api.spc.int</code></td>
+          <td>Host</td>
+          <td>Which service you are asking. Nothing else matters if this is wrong.</td>
+        </tr>
+        <tr>
+          <td><code>/insitu/get_data/station/</code></td>
+          <td>Path</td>
+          <td>Which question you are asking it - here, observation data.</td>
+        </tr>
+        <tr>
+          <td><code>auasi</code></td>
+          <td>Station</td>
+          <td>Which station. This one is Samoa, Auasi.</td>
+        </tr>
+        <tr>
+          <td><code>?limit=1</code></td>
+          <td>Query</td>
+          <td>Options, after the <code>?</code>. This asks for one reading. Join more with <code>&amp;</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The reply is JSON - the same format as the
+      <a href="practical-2.html">Practical 2</a> forecast file. Which means the
+      skill is the same one: find the keys you need, ignore the rest.
+    </p>
+
+    <p class="note">
+      Station codes that work: <code>auasi</code> (Samoa, Auasi),
+      <code>upol</code> (Samoa, Apia), <code>fong</code> (Tuvalu),
+      <code>viti</code> (Fiji, Suva), <code>tara</code> (Kiribati, Tarawa),
+      <code>luga</code> (Vanuatu, Luganville), <code>lomb</code> (PNG, Manus Is).
+    </p>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 2 - a live widget built on that URL
+       ============================================================ -->
+  <div id="widget" class="panel">
+    <h2>Live Sea Level</h2>
+
+    <p>
+      The whole point of an API: this reading is not typed by anyone. Press
+      <strong>Show code</strong> below, then <strong>Run this code</strong>,
+      and the page will ask the ocean observations service for it, live.
+    </p>
+
+    <!-- practical-3.js fills this in once you press "Run this code" -->
+    <div id="sea-level-widget" class="widget">
+      <p class="widget-value">--</p>
+    </div>
+
+    <p id="widget-status" class="status">Not loaded yet - press "Run this code" below.</p>
+
+    <button class="code-button" data-code="widget-code">Show code</button>
+    <pre id="widget-code" class="editable-code" hidden><code class="language-javascript">// Packages used: none. fetch is built into every browser.
+
+const stationId = 'auasi'   // change this to another station and reload
+
+// 1. Ask the API for the one most recent reading
+const response = await fetch(
+  'https://ocean-obs-api.spc.int/insitu/get_data/station/' + stationId + '?limit=1'
+)
+
+// 2. A reply arrived - but check it is not an error page before trusting it
+if (!response.ok) {
+  throw new Error('the server replied ' + response.status)
+}
+
+// 3. Read the reply as JSON
+const result = await response.json()
+
+// 4. Pick out the parts we want. Tide gauges send newest first, so [0]
+//    is the latest reading.
+const latest = result.data[0]
+const seaLevel = latest['sea_level (m)']
+
+// 5. Put it on the page
+document.getElementById('sea-level-widget').textContent =
+  result.display_name + ': ' + seaLevel + ' m at ' + latest.time</code></pre>
+
+    <p class="note">
+      Click into the code above and change it - try a different station code -
+      then press <strong>Run this code</strong>. It is real, runnable
+      JavaScript, so this makes a real request and redraws the widget above
+      with whatever comes back. <strong>Reset code</strong> puts the original
+      back.
+    </p>
+
+    <p class="button-row">
+      <button id="widget-run" class="run-button">Run this code</button>
+      <button id="widget-reset" class="code-button">Reset code</button>
+    </p>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 3 - PRACTICAL. Call the API yourself.
+       ============================================================ -->
+  <div id="practical" class="panel">
+    <h2>Your turn - call the API</h2>
+
+    <h3>Step 1 - Find a station</h3>
+
+    <p>
+      Paste this URL into the box below and press <strong>Call this URL</strong> -
+      it lists every station the API knows about.
+    </p>
+
+    <p class="url-copy">
+      <code>https://ocean-obs-api.spc.int/insitu/stations/</code>
+      <button class="copy-button" data-copy="https://ocean-obs-api.spc.int/insitu/stations/" aria-label="Copy URL" title="Copy URL">
+        <svg viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>
+      </button>
+    </p>
+
+    <div class="try">
+      <div class="url-input-row">
+        <span class="method-badge">GET</span>
+        <input id="try-url-1" type="text"
+               value="https://ocean-obs-api.spc.int/insitu/stations/">
+      </div>
+      <button id="try-button-1">Call this URL</button>
+    </div>
+
+    <p id="try-status-1" class="status">Press Call this URL to begin.</p>
+
+    <pre id="try-json-1" class="file-content" hidden><code></code></pre>
+
+    <h3>Step 2 - Get that station's data</h3>
+
+    <p>
+      Pick a code from the list above, drop it into this URL in place of
+      <code>auasi</code>, then call it the same way.
+    </p>
+
+    <p class="url-copy">
+      <code>https://ocean-obs-api.spc.int/insitu/get_data/station/auasi?limit=1</code>
+      <button class="copy-button" data-copy="https://ocean-obs-api.spc.int/insitu/get_data/station/auasi?limit=1" aria-label="Copy URL" title="Copy URL">
+        <svg viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>
+      </button>
+    </p>
+
+    <div class="try">
+      <div class="url-input-row">
+        <span class="method-badge">GET</span>
+        <input id="try-url-2" type="text"
+               value="https://ocean-obs-api.spc.int/insitu/get_data/station/auasi?limit=1">
+      </div>
+      <button id="try-button-2">Call this URL</button>
+    </div>
+
+    <p id="try-status-2" class="status">Press Call this URL to begin.</p>
+
+    <pre id="try-json-2" class="file-content" hidden><code></code></pre>
+
+    <h3>Step 3 - Plot it</h3>
+
+    <p>
+      The same data, drawn as a chart instead of read as text - this is how
+      the Tide Gauge Data tab in <a href="practical-4.html">Practical 4</a>
+      works. A higher <code>limit</code> gives the line more points to draw.
+    </p>
+
+    <p id="try-status-3" class="status">Loading data...</p>
+    <h4 id="try-station-name-3"></h4>
+    <canvas id="try-chart-3" hidden></canvas>
+
+    <button class="code-button" data-code="chart-code">Show code</button>
+    <pre id="chart-code" class="editable-code" hidden><code class="language-javascript">// Packages used: chart.js - install it with: npm install chart.js
+// (Chart is already loaded on this page, the same way fetch always is)
+
+// 1. Ask the API for up to 1000 readings, and read the reply as JSON
+const response = await fetch('https://ocean-obs-api.spc.int/insitu/get_data/station/auasi?limit=1000')
+const result = await response.json()
+
+// 2. Sort oldest first, so the line reads left to right in time
+const records = result.data.slice().sort((a, b) =&gt; a.time &lt; b.time ? -1 : 1)
+
+// 3. Throw away error readings (tide gauges mark these with a fixed bad-data value)
+const good = records.filter(r =&gt; r['sea_level (m)'] !== Number(result.bad_data))
+
+// 4. Split into x axis labels and y axis values
+const labels = good.map(r =&gt; r.time.slice(0, 16).replace('T', ' '))
+const values = good.map(r =&gt; r['sea_level (m)'])
+
+// 5. Chart.js will not draw twice on the same canvas, so remove any old one first
+const canvas = document.getElementById('try-chart-3')
+canvas.hidden = false
+Chart.getChart(canvas)?.destroy()
+
+// 6. Hand both lists to Chart.js, which does the drawing
+new Chart(canvas, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{ label: 'Sea level (m)', data: values }]
+  }
+})</code></pre>
+
+    <p class="note">
+      Click into the code above and change it - try a different station code
+      or <code>limit</code> - then press <strong>Run this code</strong> to
+      redraw the chart above. <strong>Reset code</strong> puts the original
+      back.
+    </p>
+
+    <p class="button-row">
+      <button id="chart-run" class="run-button">Run this code</button>
+      <button id="chart-reset" class="code-button">Reset code</button>
+    </p>
+
+    <p class="note">
+      Station codes that work: <code>auasi</code> (Samoa, Auasi),
+      <code>upol</code> (Samoa, Apia), <code>fong</code> (Tuvalu),
+      <code>viti</code> (Fiji, Suva), <code>tara</code> (Kiribati, Tarawa),
+      <code>luga</code> (Vanuatu, Luganville), <code>lomb</code> (PNG, Manus Is).
+    </p>
+  </div>
+
+
+
+</body>
+</html>

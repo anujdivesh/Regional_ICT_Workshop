@@ -8,6 +8,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: '/ict-workshop/',
   build: {
     rollupOptions: {
       input: {

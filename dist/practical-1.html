@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical 1 - System Maintenance and Planning</title>
+  <script type="module" crossorigin src="/ict-workshop/assets/practical1-Cx7-lTuK.js"></script>
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/style-CSnia0YI.js">
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/shared-eRITiLAf.js">
+  <link rel="stylesheet" crossorigin href="/ict-workshop/assets/style-Cdva-XA-.css">
+</head>
+<body>
+
+  <p><a class="back-link" href="index.html">All practicals</a></p>
+
+  <p class="eyebrow">Practical 1</p>
+  <h1>System Maintenance and Planning</h1>
+  <p class="intro">
+    Reading a system log to find what went wrong, and planning the routine
+    checks that catch faults before they become outages.
+  </p>
+
+  <div class="tabs">
+    <button class="tab-button active" data-tab="log">1. Reading a Log</button>
+    <button class="tab-button" data-tab="plan">2. Maintenance Schedule</button>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 1 - reading a system log
+       ============================================================ -->
+  <div id="log" class="panel active">
+    <h2>Reading a Log</h2>
+
+    <p>
+      One line per event, oldest at the top. Neither failure below begins at the
+      red lines - both begin with something small near the top.
+    </p>
+
+    <p class="note">
+      Also in <code>sample_system_log.txt</code> and
+      <code>sample_backup_log.txt</code> in this folder, if you would rather
+      scroll them in an editor.
+    </p>
+
+    <!-- practical-1.js colours the severities and writes the lines in here -->
+    <h3>Log 1 - the server, over three days</h3>
+    <div id="log-view" class="log-view">Loading the log...</div>
+
+    <h3>Log 2 - the backups, over two weeks</h3>
+    <div id="backup-log-view" class="log-view">Loading the log...</div>
+
+    <!-- ---------------- The group questions ---------------- -->
+    <h2>Three questions, in groups</h2>
+
+    <p>
+      Answer all three for <strong>each</strong> log - Give each group ten minutes, then
+      one person reports back. The disagreements are the useful part.
+    </p>
+
+    <ol class="questions">
+      <li>
+        <strong>What is going on?</strong>
+        What changed through the day, when did it start going wrong, and what
+        finally broke?
+      </li>
+      <li>
+        <strong>How would you resolve it?</strong>
+        What would you do first, in what order, and who would you tell while you
+        work?
+      </li>
+      <li>
+        <strong>What would stop it happening again?</strong>
+        Turn your answer into one line for your plan in Activity 2.
+      </li>
+    </ol>
+
+    <button class="code-button" data-code="log-code">Show code</button>
+    <pre id="log-code" hidden><code># Packages used: none. These are built into the terminal.
+
+# A log is plain text, so ordinary text tools are enough to search it.
+
+# Show the last 20 lines - what happened most recently
+tail -20 sample_system_log.txt
+
+# Pull out only the errors, ignoring the routine chatter
+grep ERROR sample_system_log.txt
+
+# Every line that mentions disk space, to watch one number over three days
+grep "Disk space" sample_system_log.txt
+
+# The same trick on the backup log: every failed off-site copy, in order
+grep "off-site" sample_backup_log.txt
+
+# How many warnings in each? A rising count is itself a warning.
+grep -c WARNING sample_system_log.txt
+grep -c WARNING sample_backup_log.txt</code></pre>
+  </div>
+
+
+  <!-- ============================================================
+       TAB 2 - PRACTICAL. Fill in the plan and report back.
+       ============================================================ -->
+  <div id="plan" class="panel">
+    <h2>Build your Maintenance Schedule</h2>
+
+    <p>
+      Fill this in for your own office, then report back. Both failures in tab 1
+      would have been caught by one line in a table like this - start there.
+    </p>
+
+    <p class="note">
+      Click any empty cell and type. What you write is kept in this browser, so
+      a reload will not lose it.
+    </p>
+
+    <!-- data-sheet marks this table as one participants type into.
+         practical-1.js makes the cells editable and remembers what is in them. -->
+    <table class="formats-table worksheet" data-sheet="practical-1-plan">
+      <thead>
+        <tr>
+          <th class="col-often">How often</th>
+          <th>Tasks</th>
+          <th class="col-who">Responsible personnel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Daily</th>
+          <td>Is the website working? &nbsp; Did the backup run?</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>Weekly</th>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>Monthly</th>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>Quarterly</th>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>Annually</th>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="code-button" data-code="checks-code">Show code</button>
+    <pre id="checks-code" hidden><code># Packages used: none. Both are built into the terminal, and both only look.
+
+# How full is the disk? Read the "Use%" column. Over 85% needs acting on.
+df -h
+
+# What is running, busiest first? Press q to quit.
+top</code></pre>
+  </div>
+
+
+
+</body>
+</html>

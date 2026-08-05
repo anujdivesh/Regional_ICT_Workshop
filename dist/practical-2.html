@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical 2 - Data Formats and Storage</title>
+  <script type="module" crossorigin src="/ict-workshop/assets/practical2-DR2Knadf.js"></script>
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/style-CSnia0YI.js">
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/shared-eRITiLAf.js">
+  <link rel="modulepreload" crossorigin href="/ict-workshop/assets/prism-CBfTwKG-.js">
+  <link rel="stylesheet" crossorigin href="/ict-workshop/assets/style-Cdva-XA-.css">
+</head>
+<body>
+
+  <p><a class="back-link" href="index.html">All practicals</a></p>
+
+  <p class="eyebrow">Practical 2</p>
+  <h1>Data Formats and Storage</h1>
+  <p class="intro">
+    The formats ocean data arrives in - <strong>CSV</strong>, <strong>JSON</strong>,
+    <strong>GeoJSON</strong> and <strong>XML</strong>. One tab each: what it is
+    good at, the whole file to read, and a copy to download.
+  </p>
+
+  <div class="tabs">
+    <button class="tab-button active" data-tab="csv">1. CSV</button>
+    <button class="tab-button" data-tab="json">2. JSON</button>
+    <button class="tab-button" data-tab="geojson">3. GeoJSON</button>
+    <button class="tab-button" data-tab="xml">4. XML</button>
+    <button class="tab-button practical" data-tab="practical">5. Practical</button>
+  </div>
+
+
+  <!-- ============================================================
+       Each file tab is written out here rather than generated in JavaScript,
+       so this file stays readable. practical-2.js only fills in two things per
+       tab: the file's text, and where its download button points.
+       ============================================================ -->
+
+
+  <!-- ---------------- TAB 1 - CSV ---------------- -->
+  <div id="csv" class="panel active">
+    <h2>sample_wave_buoy.csv <span class="badge">CSV</span></h2>
+
+    <p>
+      Rows and columns, like a spreadsheet. Best for readings over time. Five
+      days from the Honiara buoy here.
+    </p>
+
+    <p>
+      <a class="download-button" id="csv-download"
+         download="sample_wave_buoy.csv">Download the CSV</a>
+    </p>
+    <pre id="csv-content" class="file-content"><code>Loading...</code></pre>
+  </div>
+
+
+  <!-- ---------------- TAB 2 - JSON ---------------- -->
+  <div id="json" class="panel">
+    <h2>sample_forecast_snippet.json <span class="badge">JSON</span></h2>
+
+    <p>
+      Keys and values, nested. What an API replies with. Here <code>daily</code>
+      holds parallel lists rather than rows: the first date goes with the first
+      rainfall figure, and only their position joins them.
+    </p>
+
+    <p>
+      <a class="download-button" id="json-download"
+         download="sample_forecast_snippet.json">Download the JSON</a>
+    </p>
+    <pre id="json-content" class="file-content"><code>Loading...</code></pre>
+  </div>
+
+
+  <!-- ---------------- TAB 3 - GeoJSON ---------------- -->
+  <div id="geojson" class="panel">
+    <h2>sample_stations.geojson <span class="badge">GeoJSON</span></h2>
+
+    <p>
+      JSON in a fixed shape that maps recognise. Tide gauges here, each with
+      <code>properties</code> and a <code>geometry</code>. Coordinates are
+      <strong>longitude first</strong> - the usual reason a station appears in
+      the wrong ocean.
+    </p>
+
+    <p>
+      <a class="download-button" id="geojson-download"
+         download="sample_stations.geojson">Download the GeoJSON</a>
+    </p>
+    <pre id="geojson-content" class="file-content"><code>Loading...</code></pre>
+  </div>
+
+
+  <!-- ---------------- TAB 4 - XML ---------------- -->
+  <div id="xml" class="panel">
+    <h2>sample_station_metadata.xml <span class="badge">XML</span></h2>
+
+    <p>
+      Nested tags. The usual choice for metadata - what the instrument is, not
+      what it recorded. Installed, last serviced, still active: that is how you
+      tell a fault from a service visit.
+    </p>
+
+    <p>
+      <a class="download-button" id="xml-download"
+         download="sample_station_metadata.xml">Download the XML</a>
+    </p>
+    <pre id="xml-content" class="file-content"><code>Loading...</code></pre>
+  </div>
+
+
+  <!-- ---------------- TAB 5 - PRACTICAL ---------------- -->
+  <div id="practical" class="panel">
+    <h2>Your turn - plot the data with Python</h2>
+
+    <p>
+      <code>plot_wave_buoy.py</code> is in this folder, next to the CSV it reads.
+      It cleans the readings and draws wave height and peak period.
+    </p>
+
+    <div class="try">
+      <p class="try-label">Run it in the terminal:</p>
+      <pre><code>pip install pandas matplotlib
+python plot_wave_buoy.py</code></pre>
+    </div>
+
+    <h3>The whole script</h3>
+    <p>
+      Read it top to bottom - it is the same five steps every plotting job has:
+      load, check, clean, order, draw. Coloured the way your editor would colour
+      it: comments grey, text in quotes one colour, keywords another.
+    </p>
+
+    <p class="note">
+      You can type in the box below. Click into it and edit, then click away and
+      the colours redraw. Nothing here is saved to the file - it is for trying an
+      idea before you change the real script. <strong>Reset</strong> puts it back.
+    </p>
+
+    <pre id="script-content" class="file-content editable-code"><code class="language-python">Loading...</code></pre>
+
+    <!-- The script only runs if the CSV it reads is beside it, so both are
+         offered together. This button points at the same file as the one on the
+         CSV tab - practical-2.js fills in both. -->
+    <p class="button-row">
+      <button id="script-reset" class="code-button">Reset the script</button>
+      <a class="download-button" id="script-download"
+         download="plot_wave_buoy.py">Download the script</a>
+      <a class="download-button" id="script-csv-download"
+         download="sample_wave_buoy.csv">Download the CSV it reads</a>
+    </p>
+
+    <p class="note">
+      Step 2 is the one to linger on. The two bad readings you found on the CSV
+      tab are removed there - comment those lines out, run it again, and see how
+      badly one <code>99.9</code> distorts the whole chart.
+    </p>
+
+    <h3>The result</h3>
+    <p>
+      There is no screen in a Codespace for a chart to pop up on, so the script
+      saves <code>wave_buoy_plot.png</code> instead. Press the button to see what
+      you should get.
+    </p>
+
+    <p>
+      <button id="run-button" class="run-button">Run and show the plot</button>
+    </p>
+
+    <p id="run-status" class="status">Press the button to see the finished plot.</p>
+    <img id="run-plot" alt="Wave height and peak period for the Honiara wave buoy" hidden>
+
+    <!-- What the script prints on its way to saving that chart. Hidden until
+         the button is pressed, so the two arrive together. -->
+    <div id="run-output" hidden>
+      <h3>What it printed</h3>
+      <p>
+        The <code>print</code> lines in the script, in the order they ran. This is
+        the quality check: one dropped reading, one sensor error, both found
+        before anything was plotted.
+      </p>
+      <pre class="terminal"><code>$ python plot_wave_buoy.py
+First few rows:
+          timestamp            station  latitude  longitude  hs_m  tp_s
+0  2026-08-01 00:00  Honiara Wave Buoy     -9.45     159.96  0.92   6.8
+1  2026-08-01 03:00  Honiara Wave Buoy     -9.45     159.96  0.88   6.6
+2  2026-08-01 06:00  Honiara Wave Buoy     -9.45     159.96  0.95   7.0
+3  2026-08-01 09:00  Honiara Wave Buoy     -9.45     159.96  1.05   7.2
+4  2026-08-01 12:00  Honiara Wave Buoy     -9.45     159.96  1.18   7.4
+
+Rows with a missing wave height:
+          timestamp            station  latitude  longitude  hs_m  tp_s
+9  2026-08-02 03:00  Honiara Wave Buoy     -9.45     159.96   NaN   6.7
+
+Rows with a suspicious wave height (over 10 m is not possible here):
+           timestamp            station  latitude  longitude  hs_m  tp_s
+22  2026-08-03 18:00  Honiara Wave Buoy     -9.45     159.96  99.9  13.1
+
+Saved plot to wave_buoy_plot.png</code></pre>
+
+      <p class="note">
+        <code>NaN</code> is how pandas writes "no value here" - the blank cell in
+        the CSV. Notice the <code>99.9</code> row also has a <code>tp_s</code> of
+        13.1 seconds, which is high but possible: only one of the two readings
+        failed, which is why the check is on <code>hs_m</code> alone.
+      </p>
+    </div>
+  </div>
+
+
+
+</body>
+</html>
