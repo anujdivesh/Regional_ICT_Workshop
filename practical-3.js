@@ -1,23 +1,21 @@
 // practical-3.js - API Integration.
 //
-// One API is used throughout: the SPC ocean observations service. Everything
-// here is fetch, which is built into the browser - no packages needed.
+// Everything here is fetch, which is built into the browser - no packages
+// needed.
 
-import { setupTabs, setupCodeButtons } from './shared.js'
+import { setupTabs, setupCodeButtons, setupCopyButtons } from './shared.js'
 
+// Prism does the syntax colouring on the editable code block below. The core
+// knows no languages on its own, and javascript itself extends clike.
+import Prism from 'prismjs'
+import 'prismjs/components/prism-clike'
+import 'prismjs/components/prism-javascript'
 
-// ============================================================
-// The API address, in the two parts that change: the station, and how many
-// readings to ask for.
-// ============================================================
-const API = 'https://ocean-obs-api.spc.int/insitu/get_data/station/'
-
-function buildUrl(station, limit) {
-  return API + station + '?limit=' + limit
-}
-
-
-// ------------- nothing below here needs changing -------------
+// Chart.js draws the chart in Step 3, the same way Practical 4 does it.
+// Exposed as a global too, so the runnable code block below can use it -
+// new Function bodies run in the global scope, not this module's scope.
+import Chart from 'chart.js/auto'
+window.Chart = Chart
 
 
 // ---------------------------------------------------------------
@@ -25,118 +23,177 @@ function buildUrl(station, limit) {
 // ---------------------------------------------------------------
 setupTabs()
 setupCodeButtons()
+setupCopyButtons()
 
 
 // ---------------------------------------------------------------
-// 2. Ask the API for a station's readings
+// 2. Editable, runnable code blocks - Tab 2's widget and Tab 3's chart
 //
-//    One function for both tabs. It returns the reply rather than putting
-//    anything on the page, so each tab can do what it likes with it - and the
-//    error handling lives in one place.
+//    Both are real, runnable JavaScript rather than just an illustration, so
+//    instead of showing what a run would look like, the page can actually
+//    run whatever ends up in the box.
 // ---------------------------------------------------------------
-async function getReadings(station, limit) {
-  const response = await fetch(buildUrl(station, limit))
+function setupRunnableCode(codeId, resetId, runId, statusId) {
+  const codeElement = document.querySelector('#' + codeId + ' code')
+  const originalCode = codeElement.textContent
+  const status = document.getElementById(statusId)
 
-  // A reply arrived, but that does not mean it is the data. 404 means no such
-  // station, 500 means the service is unwell - both arrive as replies.
-  if (!response.ok) {
-    throw new Error('the server replied ' + response.status)
+  function colour() {
+    Prism.highlightElement(codeElement)
   }
 
-  return response.json()
+  colour()
+
+  // contenteditable is all it takes to make an element typable
+  codeElement.contentEditable = 'true'
+  codeElement.spellcheck = false
+
+  // Clicking away means the edit is finished, so it is safe to re-colour
+  codeElement.addEventListener('blur', colour)
+
+  document.getElementById(resetId).addEventListener('click', () => {
+    codeElement.textContent = originalCode
+    colour()
+  })
+
+  document.getElementById(runId).addEventListener('click', async () => {
+    status.textContent = 'Running your code...'
+
+    try {
+      // new Function gives the pasted code a fresh scope every time, so
+      // running it twice never trips over "already declared" from the first run
+      const run = new Function(
+        'return (async () => {\n' + codeElement.textContent + '\n})()'
+      )
+      await run()
+      status.textContent = 'Ran without error - see above.'
+
+    } catch (error) {
+      status.textContent = 'Your code did not run: ' + error.message
+    }
+  })
 }
+
+setupRunnableCode('widget-code', 'widget-reset', 'widget-run', 'widget-status')
+setupRunnableCode('chart-code', 'chart-reset', 'chart-run', 'try-status-3')
 
 
 // ---------------------------------------------------------------
-// 3. Show one reading as a sentence a person can read
+// 3. Tab 3 - call any URL
 //
-//    Tide gauges send newest first, so data[0] is the latest reading.
+//    One function for each step's box, since both do exactly the same
+//    thing: fetch whatever address is in their input, and show the reply as
+//    JSON if it can be parsed as JSON, or as plain text if it cannot.
 // ---------------------------------------------------------------
-function showReading(result, widgetId) {
-  const latest = result.data[0]
-  const seaLevel = latest['sea_level (m)']
+function setupUrlCaller(id) {
+  const urlBox = document.getElementById('try-url-' + id)
+  const status = document.getElementById('try-status-' + id)
+  const output = document.getElementById('try-json-' + id)
 
-  // The time comes back as 2026-08-04T21:00:00 - swapping the T for a space
-  // and dropping the seconds is enough to make it readable
-  const when = latest.time.slice(0, 16).replace('T', ' ')
+  document.getElementById('try-button-' + id).addEventListener('click', async () => {
+    status.textContent = 'Asking the API...'
+    output.hidden = true
 
-  const widget = document.getElementById(widgetId)
-  widget.textContent = ''
+    try {
+      const response = await fetch(urlBox.value.trim())
 
-  const value = document.createElement('p')
-  value.className = 'widget-value'
-  value.textContent = seaLevel + ' m'
+      if (!response.ok) {
+        throw new Error('the server replied ' + response.status)
+      }
 
-  const where = document.createElement('p')
-  where.className = 'widget-label'
-  where.textContent = result.display_name
+      const text = await response.text()
 
-  const time = document.createElement('p')
-  time.className = 'widget-label'
-  time.textContent = 'at ' + when + ' UTC'
+      try {
+        output.querySelector('code').textContent = JSON.stringify(JSON.parse(text), null, 2)
+      } catch {
+        output.querySelector('code').textContent = text
+      }
 
-  widget.append(value, where, time)
+      output.hidden = false
+      status.textContent = 'Got a reply.'
+
+    } catch (error) {
+      status.textContent = 'Could not reach that URL: ' + error.message
+    }
+  })
 }
 
+setupUrlCaller('1')
+setupUrlCaller('2')
+
 
 // ---------------------------------------------------------------
-// 4. Tab 2 - the live widget, filled in as soon as the page opens
+// 4. Tab 3, Step 3 - the same data, drawn as a chart
+//
+//    Loads as soon as the page opens, the same way Practical 4's Tide Gauge
+//    Data tab does - see the "Show code" button for the four lines that do it.
 // ---------------------------------------------------------------
-async function loadWidget() {
-  const status = document.getElementById('widget-status')
+const CHART_URL = 'https://ocean-obs-api.spc.int/insitu/get_data/station/auasi?limit=1000'
+
+async function drawChart(url) {
+  const status = document.getElementById('try-status-3')
+  const canvas = document.getElementById('try-chart-3')
 
   try {
-    const result = await getReadings('auasi', 1)
-    showReading(result, 'sea-level-widget')
-    status.textContent = 'Read from the API when this page opened.'
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      throw new Error('the server replied ' + response.status)
+    }
+
+    const result = await response.json()
+
+    document.getElementById('try-station-name-3').textContent = result.display_name
+
+    // Oldest first, so the line reads left to right in time
+    const records = result.data.slice().sort((a, b) => a.time < b.time ? -1 : 1)
+
+    // Tide gauges mark error readings with a fixed bad-data value - drop them
+    const badValue = Number(result.bad_data)
+    const good = records.filter(r => r['sea_level (m)'] !== badValue && r['sea_level (m)'] !== null)
+
+    const labels = good.map(r => r.time.slice(0, 16).replace('T', ' '))
+    const values = good.map(r => r['sea_level (m)'])
+
+    canvas.hidden = false
+
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Sea level (m)',
+          data: values,
+          borderColor: '#2a78d6',
+          borderWidth: 2,
+          pointRadius: 0,   // up to 1000 points, so no dots
+          tension: 0.1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }   // only one line, the heading names it
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Time (UTC)' },
+            ticks: { maxTicksLimit: 10 },
+            grid: { color: '#e1e0d9' }
+          },
+          y: {
+            title: { display: true, text: 'Sea level (m)' },
+            grid: { color: '#e1e0d9' }
+          }
+        }
+      }
+    })
+
+    status.textContent = good.length + ' readings plotted.'
 
   } catch (error) {
-    document.querySelector('#sea-level-widget .widget-value').textContent = '--'
-    status.textContent = 'Could not reach the API: ' + error.message
+    status.textContent = 'Could not load the data: ' + error.message
   }
 }
 
-loadWidget()
-
-
-// ---------------------------------------------------------------
-// 5. Tab 3 - the practical
-//
-//    The URL box updates as the dropdowns change, so the address and the
-//    result are never out of step with each other.
-// ---------------------------------------------------------------
-const stationBox = document.getElementById('try-station')
-const limitBox = document.getElementById('try-limit')
-
-function showUrl() {
-  document.querySelector('#try-url code').textContent =
-    buildUrl(stationBox.value, limitBox.value)
-}
-
-stationBox.addEventListener('change', showUrl)
-limitBox.addEventListener('change', showUrl)
-showUrl()   // fill it in before anything is touched
-
-document.getElementById('try-button').addEventListener('click', async () => {
-  const status = document.getElementById('try-status')
-  const result = document.getElementById('try-result')
-
-  status.textContent = 'Asking the API...'
-
-  try {
-    const data = await getReadings(stationBox.value, limitBox.value)
-
-    showReading(data, 'try-widget')
-
-    // JSON.stringify turns the reply back into text. The 2 is how many spaces
-    // to indent by - without it the whole thing arrives on one line.
-    document.querySelector('#try-json code').textContent = JSON.stringify(data, null, 2)
-
-    result.hidden = false
-    status.textContent = `${data.data.length} reading(s) came back.`
-
-  } catch (error) {
-    result.hidden = true
-    status.textContent = 'Could not reach the API: ' + error.message
-  }
-})
+drawChart(CHART_URL)

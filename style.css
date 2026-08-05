@@ -338,6 +338,42 @@ code {
   border-radius: 3px;
 }
 
+/* A URL mentioned in the text, with a small button to copy it */
+.url-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  color: #8a877e;
+  background: none;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.copy-button svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.copy-button:hover {
+  color: #2a78d6;
+  background: #eaf2fc;
+}
+
+.copy-button.copied {
+  color: #1f8a5f;
+}
+
 /* The "change this bit of the URL" list in Step 2 */
 .tweaks {
   padding-left: 20px;
@@ -662,6 +698,32 @@ code {
   border: 1px solid #c3c2b7;
   border-radius: 3px;
   box-sizing: border-box;   /* keep the padding inside the 100% width */
+}
+
+/* The URL input, with the HTTP method it will be called with beside it */
+.url-input-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.url-input-row input {
+  flex: 1;
+  min-width: 0;   /* let the input shrink below its content's natural width */
+}
+
+.method-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: #1f8a5f;
+  border-radius: 3px;
+  flex-shrink: 0;
 }
 
 .try button {

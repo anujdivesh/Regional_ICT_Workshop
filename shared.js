@@ -44,6 +44,24 @@ export function setupCodeButtons() {
 
 
 // ---------------------------------------------------------------
+// Copy-to-clipboard buttons
+// Each button carries data-copy, the exact text to put on the clipboard -
+// simpler and more reliable than reading it back out of nearby HTML.
+// ---------------------------------------------------------------
+export function setupCopyButtons() {
+  document.querySelectorAll('.copy-button').forEach(button => {
+    button.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(button.dataset.copy)
+
+      button.classList.add('copied')
+      clearTimeout(button.copiedTimer)
+      button.copiedTimer = setTimeout(() => button.classList.remove('copied'), 1200)
+    })
+  })
+}
+
+
+// ---------------------------------------------------------------
 // The "Open in new tab" buttons
 // data-link says which link to read the address from, so the button and the
 // link beside it can never drift apart.
