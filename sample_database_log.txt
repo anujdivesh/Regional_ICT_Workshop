@@ -1,0 +1,30 @@
+=================================================================
+ CLIDE DATABASE - PostgreSQL and application log
+ Host: clide-db-01      Database: clide (PostgreSQL 16)
+ One server holds two databases. A restore, and the morning after it.
+=================================================================
+
+--- Friday 12 June ---
+02:00  OK       Nightly backup written: /backup/clide_2026-06-12.dump (61 GB).
+02:10  OK       Nightly backup written: /backup/staff_directory_2026-06-12.dump (2 GB).
+09:00  WARNING  A restore has never been tested. Noted in the plan, no date set.
+
+--- Wednesday 17 June ---
+02:00  OK       Nightly backup written: /backup/clide_2026-06-17.dump (61 GB).
+02:10  OK       Nightly backup written: /backup/staff_directory_2026-06-17.dump (2 GB).
+10:02  ERROR    Staff deleted 3,400 rows from obs_daily by mistake.
+10:15  OK       Decision taken: restore last night's backup to get the rows back.
+10:20  WARNING  Four dump files in /backup. Two applications, similar names.
+10:24  OK       Restore started: pg_restore -d clide /backup/staff_directory_2026-06-17.dump
+10:31  OK       Restore finished in 5 minutes. A 61 GB restore takes about 90.
+10:32  OK       PostgreSQL accepting connections on port 5432.
+10:34  ERROR    CliDE will not start. It stopped on its first query.
+10:34  ERROR    Table "obs_daily" does not exist.
+10:35  ERROR    Table "obs_aws" does not exist.
+10:36  WARNING  The clide database now holds the staff directory's tables.
+10:38  ERROR    CliDE unavailable to all climate staff. No data entry possible.
+10:41  WARNING  The restore replaced CliDE's data. The deleted rows are still missing.
+10:44  OK       The right file is on disk, untouched: /backup/clide_2026-06-17.dump
+10:48  WARNING  Restoring 61 GB takes about 90 minutes. CliDE stays down until then.
+10:55  WARNING  Nothing entered since 02:00 is in any backup. About 8 hours of work.
+11:10  OK       Duty officer opened ticket INC-0702.

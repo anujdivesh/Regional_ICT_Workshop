@@ -7,6 +7,8 @@ import { setupTabs, setupCodeButtons } from './shared.js'
 // participants can open in an editor rather than being pasted into the page.
 import serverLog from './sample_system_log.txt?raw'
 import backupLog from './sample_backup_log.txt?raw'
+import websiteLog from './sample_website_log.txt?raw'
+import databaseLog from './sample_database_log.txt?raw'
 
 
 // ---------------------------------------------------------------
@@ -67,6 +69,8 @@ function renderLog(text, viewId) {
 
 renderLog(serverLog, 'log-view')
 renderLog(backupLog, 'backup-log-view')
+renderLog(websiteLog, 'website-log-view')
+renderLog(databaseLog, 'database-log-view')
 
 
 // ---------------------------------------------------------------

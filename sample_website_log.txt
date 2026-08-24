@@ -1,0 +1,46 @@
+=================================================================
+ OCEAN PORTAL WEBSITE - web server and certbot log
+ Host: ocean-portal-web-02      Certificate: Let's Encrypt, 90 days
+ Five weeks of the public website and its automatic renewal.
+=================================================================
+
+--- Week of Monday 4 May ---
+Mon 04 May  02:00 OK       certbot renewal check: certificate valid for 33 more days. Nothing to do.
+Mon 04 May  09:40 OK       IT closed unused ports on the web server. Port 443 left open.
+Wed 06 May  03:00 OK       Website reachable. Response time 0.4 seconds.
+Fri 08 May  02:00 WARNING  certbot renewal failed: the challenge could not be reached on port 80.
+Fri 08 May  02:01 OK       Failure email sent to webmaster@ocean-portal.
+
+--- Week of Monday 11 May ---
+Mon 11 May  02:00 WARNING  certbot renewal failed. 26 days left. Same challenge error.
+Tue 12 May  10:20 OK       Content team published 4 new bulletin pages.
+Thu 14 May  02:00 WARNING  certbot renewal failed. 23 days left.
+Fri 15 May  16:40 OK       Webmaster began two weeks of leave. No cover named.
+
+--- Week of Monday 18 May ---
+Mon 18 May  02:00 WARNING  certbot renewal failed. 19 days left. 9 attempts have now failed.
+Tue 19 May  02:00 ERROR    Site plugin update failed. Rolled back automatically.
+Tue 19 May  02:05 OK       Site plugin back at its previous version. Website reachable.
+Thu 21 May  02:00 WARNING  certbot renewal failed. 16 days left.
+Fri 22 May  09:00 WARNING  Let's Encrypt emailed: certificate expires in 15 days. Mailbox has 340 unread items.
+
+--- Week of Monday 25 May ---
+Mon 25 May  02:00 WARNING  certbot renewal failed. 12 days left.
+Wed 27 May  02:00 WARNING  certbot renewal failed. 10 days left.
+Fri 29 May  02:00 WARNING  certbot renewal failed. 8 days left.
+Fri 29 May  17:45 OK       Duty officer handover. Nothing outstanding.
+
+--- Week of Monday 1 June ---
+Mon 01 June 02:00 WARNING  certbot renewal failed. 4 days left.
+Tue 02 June 02:00 WARNING  certbot renewal failed. 3 days left.
+Wed 03 June 02:00 WARNING  certbot renewal failed. 2 days left.
+Thu 04 June 02:00 WARNING  certbot renewal failed. The certificate expires tomorrow.
+Thu 04 June 17:45 OK       Duty officer handover. Nothing outstanding.
+Fri 05 June 00:01 ERROR    Certificate expired. 26 renewal attempts have failed since 8 May.
+Fri 05 June 07:20 ERROR    Visitors see "Your connection is not private".
+Fri 05 June 07:35 WARNING  Three staff phoned to ask if the website has been hacked.
+Fri 05 June 08:10 ERROR    Mobile app cannot sync. It refuses the expired certificate.
+Fri 05 June 08:12 ERROR    Tide gauge stations cannot upload. Readings held on the device.
+Fri 05 June 09:05 WARNING  Station SAM-02 storage full. Oldest readings overwritten.
+Fri 05 June 09:40 OK       Duty officer opened ticket INC-0517.
+Fri 05 June 10:15 WARNING  certbot run by hand. Same failure: port 80 unreachable from outside.

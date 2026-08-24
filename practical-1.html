@@ -30,13 +30,17 @@
     <h2>Reading a Log</h2>
 
     <p>
-      One line per event, oldest at the top. Neither failure below begins at the
-      red lines - both begin with something small near the top.
+      One line per event, oldest at the top. None of the four failures below
+      begins at the red lines - each begins with something small near the top.
+      They get harder as you go down: log 3 carries a red line that had no
+      consequence at all, and in log 4 the damage is done by the repair rather
+      than by the fault.
     </p>
 
     <p class="note">
-      Also in <code>sample_system_log.txt</code> and
-      <code>sample_backup_log.txt</code> in this folder, if you would rather
+      Also in <code>sample_system_log.txt</code>,
+      <code>sample_backup_log.txt</code>, <code>sample_website_log.txt</code> and
+      <code>sample_database_log.txt</code> in this folder, if you would rather
       scroll them in an editor.
     </p>
 
@@ -47,11 +51,18 @@
     <h3>Log 2 - the backups, over two weeks</h3>
     <div id="backup-log-view" class="log-view">Loading the log...</div>
 
+    <h3>Log 3 - the public website, over five weeks</h3>
+    <div id="website-log-view" class="log-view">Loading the log...</div>
+
+    <h3>Log 4 - the CliDE database, and a restore from backup</h3>
+    <div id="database-log-view" class="log-view">Loading the log...</div>
+
     <!-- ---------------- The group questions ---------------- -->
     <h2>Three questions, in groups</h2>
 
     <p>
-      Answer all three for <strong>each</strong> log - Give each group ten minutes, then
+      Answer all three for <strong>each</strong> log your group is given - one log
+      per group works well when there are four. Give each group ten minutes, then
       one person reports back. The disagreements are the useful part.
     </p>
 
@@ -91,7 +102,20 @@ grep "off-site" sample_backup_log.txt
 
 # How many warnings in each? A rising count is itself a warning.
 grep -c WARNING sample_system_log.txt
-grep -c WARNING sample_backup_log.txt</code></pre>
+grep -c WARNING sample_backup_log.txt
+
+# Log 3: every renewal attempt, so the countdown reads in one go
+grep -i certbot sample_website_log.txt
+
+# What else happened on the day the renewals started failing?
+grep "04 May" sample_website_log.txt
+
+# Log 4: which file was restored, and which files were there to choose from
+grep -i restore sample_database_log.txt
+grep dump sample_database_log.txt
+
+# The database's own complaint, in full
+grep "does not exist" sample_database_log.txt</code></pre>
   </div>
 
 
@@ -149,6 +173,70 @@ grep -c WARNING sample_backup_log.txt</code></pre>
         </tr>
       </tbody>
     </table>
+
+    <!-- Folded away on purpose: the groups fill their own table first, then
+         open this to compare. <details> is plain HTML - no script needed. -->
+    <details class="answers">
+      <summary>Suggested answers - open after your group has filled the table</summary>
+
+      <table class="formats-table">
+        <thead>
+          <tr>
+            <th class="col-often">How often</th>
+            <th>Tasks</th>
+            <th class="col-who">Responsible personnel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Daily</th>
+            <td>
+              Is the website up? &nbsp; Did last night's backup run? &nbsp;
+              Any red lines in the logs?
+            </td>
+            <td>Duty officer</td>
+          </tr>
+          <tr>
+            <th>Weekly</th>
+            <td>
+              Disk space and log file sizes. &nbsp; Did the off-site copy
+              arrive? &nbsp; Install security updates.
+            </td>
+            <td>IT officer</td>
+          </tr>
+          <tr>
+            <th>Monthly</th>
+            <td>
+              Certificate and domain expiry dates - renew anything under 45
+              days. &nbsp; Remove accounts of staff who have left.
+            </td>
+            <td>IT officer</td>
+          </tr>
+          <tr>
+            <th>Quarterly</th>
+            <td>
+              Restore a backup onto a test server and confirm the application
+              starts. &nbsp; Read the plan again and correct it.
+            </td>
+            <td>IT manager</td>
+          </tr>
+          <tr>
+            <th>Annually</th>
+            <td>
+              Full recovery drill - what if the server is lost? &nbsp; Review
+              licences and support contracts. &nbsp; Replace ageing disks.
+            </td>
+            <td>IT manager and supervisor</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="note">
+        One row here would have caught each failure in tab 1: the daily and
+        weekly checks catch logs 1 and 2, the monthly check catches log 3, and
+        the quarterly restore test catches log 4.
+      </p>
+    </details>
 
     <button class="code-button" data-code="checks-code">Show code</button>
     <pre id="checks-code" hidden><code># Packages used: none. Both are built into the terminal, and both only look.

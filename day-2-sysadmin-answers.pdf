@@ -1,0 +1,257 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+3 0 obj
+<< /Length 4069 >>
+stream
+BT
+/F2 21.00 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 748.91 Tm
+(Day 2: Sys admin) Tj
+/F1 13.00 Tf
+0.420 0.410 0.390 rg
+1 0 0 1 56.00 728.97 Tm
+(Answers) Tj
+/F2 13.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 690.34 Tm
+(Log 1 ó the server) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 664.85 Tm
+(What is going on?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 650.36 Tm
+(Log files were never cleared since January. They grew until the disk was full \(71% to 100% in three) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 635.87 Tm
+(days\). The disk filled, the backup failed, the website stopped and todayís data was not saved.) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 613.38 Tm
+(How would you resolve it?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 598.89 Tm
+(Delete or archive the old log files to free space, restart the website, then run a backup and check it) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 584.40 Tm
+(worked.) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 561.91 Tm
+(What would stop it happening again?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 547.42 Tm
+(Turn on log rotation so logs clear themselves, and alert someone when the disk passes 85%.) Tj
+/F2 13.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 508.79 Tm
+(Log 2 ó the backups) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 483.30 Tm
+(What is going on?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 468.81 Tm
+(The off-site copy failed for 8 days and nobody noticed. The backup drive was also showing read) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 454.32 Tm
+(errors, then it died ó so every copy was on one broken disk.) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 431.83 Tm
+(How would you resolve it?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 417.34 Tm
+(Replace the drive and restore from the off-site copy, then check the restored files actually open.) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 394.85 Tm
+(What would stop it happening again?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 380.36 Tm
+(Alert on the first failed off-site copy, keep two copies in two places, and test a restore regularly.) Tj
+/F2 13.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 341.73 Tm
+(Log 3 ó the website) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 316.24 Tm
+(What is going on?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 301.75 Tm
+(The security certificate expired. It warned for 30 days, but the reminders went to an unread shared) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 287.26 Tm
+(mailbox and the webmaster was on leave with no cover. Visitors get a security warning, the app) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 272.77 Tm
+(wonít sync, and the tide gauges canít upload ó SAM-02 starts overwriting old readings.) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 250.28 Tm
+(How would you resolve it?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 235.79 Tm
+(Renew and install the certificate. The real hold-up is the purchase approval, so escalate to someone) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 221.30 Tm
+(who can approve it, and copy SAM-02ís readings off before they are lost.) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 198.81 Tm
+(What would stop it happening again?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 184.32 Tm
+(Set renewal to happen automatically, and put expiry dates on the maintenance plan with a named) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 169.83 Tm
+(person ó plus leave cover, including approvers.) Tj
+/F2 13.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 131.20 Tm
+(Log 4 ó the database) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 105.71 Tm
+(What is going on?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 91.22 Tm
+(Rows were deleted from obs_daily by mistake, then the wrong backup ó the staff directoryís ó was) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 76.73 Tm
+(restored into the clide database. CliDE now has the wrong tables and wonít start: obs_daily and) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 62.24 Tm
+(obs_aws do not exist. The clue: the restore took 5 minutes, not 90.) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Length 2024 >>
+stream
+BT
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 763.40 Tm
+(How would you resolve it?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 748.91 Tm
+(Restore the correct file, clide_2026-06-17.dump \(~90 minutes\), then re-enter the 8 hours of) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 734.42 Tm
+(observations no backup holds.) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 711.93 Tm
+(What would stop it happening again?) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 697.44 Tm
+(Clear names and separate folders per application, a backup taken before any restore, and a tested) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 682.95 Tm
+(restore each quarter.) Tj
+/F2 13.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 644.32 Tm
+(Maintenance schedule) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 619.83 Tm
+(Daily) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 605.34 Tm
+(Is the website up? Did last nightís backup run? Any red lines in the logs? ó Duty officer) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 583.85 Tm
+(Weekly) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 569.36 Tm
+(Disk space and log file sizes; did the off-site copy arrive?; install security updates ó IT officer) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 547.87 Tm
+(Monthly) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 533.38 Tm
+(Certificate and domain expiry \(renew anything under 45 days\); remove leaversí accounts ó IT officer) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 511.89 Tm
+(Quarterly) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 497.40 Tm
+(Restore a backup onto a test server and confirm the app starts; re-read and correct the plan ó IT) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 482.91 Tm
+(manager) Tj
+/F2 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 56.00 461.42 Tm
+(Annually) Tj
+/F1 10.50 Tf
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 446.93 Tm
+(Full recovery drill; review licences and support contracts; replace ageing disks ó IT manager and) Tj
+0.090 0.090 0.080 rg
+1 0 0 1 70.00 432.44 Tm
+(supervisor) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 7 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 3 0 R >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 7 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 4 0 R >>
+endobj
+7 0 obj
+<< /Type /Pages /Count 2 /Kids [5 0 R 6 0 R] >>
+endobj
+8 0 obj
+<< /Title (Day 2: Sys admin - Answers) /Producer (ICT Workshop) >>
+endobj
+9 0 obj
+<< /Type /Catalog /Pages 7 0 R >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000112 00000 n 
+0000000214 00000 n 
+0000004335 00000 n 
+0000006411 00000 n 
+0000006553 00000 n 
+0000006695 00000 n 
+0000006758 00000 n 
+0000006840 00000 n 
+trailer
+<< /Size 10 /Root 9 0 R /Info 8 0 R >>
+startxref
+6889
+%%EOF
