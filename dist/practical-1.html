@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Practical 1 - System Maintenance and Planning</title>
-  <script type="module" crossorigin src="/ict-workshop/assets/practical1-C56g6gND.js"></script>
+  <script type="module" crossorigin src="/ict-workshop/assets/practical1-mobbgbKC.js"></script>
   <link rel="modulepreload" crossorigin href="/ict-workshop/assets/style-DpIVo_gF.js">
   <link rel="modulepreload" crossorigin href="/ict-workshop/assets/shared-eRITiLAf.js">
   <link rel="stylesheet" crossorigin href="/ict-workshop/assets/style-CBD5zDK1.css">
@@ -36,15 +36,13 @@
       One line per event, oldest at the top. None of the four failures below
       begins at the red lines - each begins with something small near the top.
       They get harder as you go down: log 3 carries a red line that had no
-      consequence at all, and in log 4 the damage is done by the repair rather
-      than by the fault.
+      consequence at all.
     </p>
 
     <p class="note">
       Also in <code>sample_system_log.txt</code>,
-      <code>sample_backup_log.txt</code>, <code>sample_website_log.txt</code> and
-      <code>sample_database_log.txt</code> in this folder, if you would rather
-      scroll them in an editor.
+      <code>sample_backup_log.txt</code> and <code>sample_website_log.txt</code>
+      in this folder, if you would rather scroll them in an editor.
     </p>
 
     <!-- practical-1.js colours the severities and writes the lines in here -->
@@ -57,15 +55,12 @@
     <h3>Log 3 - the public website, over five weeks</h3>
     <div id="website-log-view" class="log-view">Loading the log...</div>
 
-    <h3>Log 4 - the CliDE database, and a restore from backup</h3>
-    <div id="database-log-view" class="log-view">Loading the log...</div>
-
     <!-- ---------------- The group questions ---------------- -->
     <h2>Three questions, in groups</h2>
 
     <p>
       Answer all three for <strong>each</strong> log your group is given - one log
-      per group works well when there are four. Give each group ten minutes, then
+      per group works well when there are three. Give each group ten minutes, then
       one person reports back. The disagreements are the useful part.
     </p>
 
@@ -113,12 +108,7 @@ grep -i certbot sample_website_log.txt
 # What else happened on the day the renewals started failing?
 grep "04 May" sample_website_log.txt
 
-# Log 4: which file was restored, and which files were there to choose from
-grep -i restore sample_database_log.txt
-grep dump sample_database_log.txt
-
-# The database's own complaint, in full
-grep "does not exist" sample_database_log.txt</code></pre>
+</code></pre>
   </div>
 
 

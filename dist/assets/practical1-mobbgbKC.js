@@ -1,4 +1,4 @@
-import"./style-DpIVo_gF.js";import{s as u,a as f}from"./shared-eRITiLAf.js";const p=`=================================================================
+import"./style-DpIVo_gF.js";import{s as f,a as u}from"./shared-eRITiLAf.js";const p=`=================================================================
  OCEAN PORTAL SERVER - system log
  Host: ocean-portal-01      Timezone: UTC+12
  Three days of routine checks, warnings and errors.
@@ -128,35 +128,5 @@ Fri 05 June 08:12 ERROR    Tide gauge stations cannot upload. Readings held on t
 Fri 05 June 09:05 WARNING  Station SAM-02 storage full. Oldest readings overwritten.
 Fri 05 June 09:40 OK       Duty officer opened ticket INC-0517.
 Fri 05 June 10:15 WARNING  certbot run by hand. Same failure: port 80 unreachable from outside.
-`,R=`=================================================================
- CLIDE DATABASE - PostgreSQL and application log
- Host: clide-db-01      Database: clide (PostgreSQL 16)
- One server holds two databases. A restore, and the morning after it.
-=================================================================
-
---- Friday 12 June ---
-02:00  OK       Nightly backup written: /backup/clide_2026-06-12.dump (61 GB).
-02:10  OK       Nightly backup written: /backup/staff_directory_2026-06-12.dump (2 GB).
-09:00  WARNING  A restore has never been tested. Noted in the plan, no date set.
-
---- Wednesday 17 June ---
-02:00  OK       Nightly backup written: /backup/clide_2026-06-17.dump (61 GB).
-02:10  OK       Nightly backup written: /backup/staff_directory_2026-06-17.dump (2 GB).
-10:02  ERROR    Staff deleted 3,400 rows from obs_daily by mistake.
-10:15  OK       Decision taken: restore last night's backup to get the rows back.
-10:20  WARNING  Four dump files in /backup. Two applications, similar names.
-10:24  OK       Restore started: pg_restore -d clide /backup/staff_directory_2026-06-17.dump
-10:31  OK       Restore finished in 5 minutes. A 61 GB restore takes about 90.
-10:32  OK       PostgreSQL accepting connections on port 5432.
-10:34  ERROR    CliDE will not start. It stopped on its first query.
-10:34  ERROR    Table "obs_daily" does not exist.
-10:35  ERROR    Table "obs_aws" does not exist.
-10:36  WARNING  The clide database now holds the staff directory's tables.
-10:38  ERROR    CliDE unavailable to all climate staff. No data entry possible.
-10:41  WARNING  The restore replaced CliDE's data. The deleted rows are still missing.
-10:44  OK       The right file is on disk, untouched: /backup/clide_2026-06-17.dump
-10:48  WARNING  Restoring 61 GB takes about 90 minutes. CliDE stays down until then.
-10:55  WARNING  Nothing entered since 02:00 is in any backup. About 8 hours of work.
-11:10  OK       Duty officer opened ticket INC-0702.
-`;u();f();const b=["OK","WARNING","ERROR"];function r(s,i){const a=document.getElementById(i);a.textContent="",s.split(`
-`).forEach(n=>{const e=document.createElement("div"),t=b.find(o=>n.includes(" "+o+" "));if(t){const o=n.indexOf(t),d=document.createElement("span");d.textContent=n.slice(0,o);const c=document.createElement("span");c.className="level-"+t.toLowerCase(),c.textContent=t;const l=document.createElement("span");l.textContent=n.slice(o+t.length),e.append(d,c,l)}else e.className="log-aside",e.textContent=n;a.append(e)})}r(p,"log-view");r(h,"backup-log-view");r(N,"website-log-view");r(R,"database-log-view");function k(s){const i=s.dataset.sheet,a=s.querySelectorAll("tbody td"),n=localStorage.getItem(i);n&&JSON.parse(n).forEach((e,t)=>{a[t]&&e&&(a[t].textContent=e)}),a.forEach(e=>{e.contentEditable="true",e.addEventListener("input",()=>{const t=[...a].map(o=>o.textContent);localStorage.setItem(i,JSON.stringify(t))})})}document.querySelectorAll(".worksheet").forEach(k);
+`;f();u();const R=["OK","WARNING","ERROR"];function c(i,s){const a=document.getElementById(s);a.textContent="",i.split(`
+`).forEach(t=>{const e=document.createElement("div"),n=R.find(o=>t.includes(" "+o+" "));if(n){const o=t.indexOf(n),d=document.createElement("span");d.textContent=t.slice(0,o);const r=document.createElement("span");r.className="level-"+n.toLowerCase(),r.textContent=n;const l=document.createElement("span");l.textContent=t.slice(o+n.length),e.append(d,r,l)}else e.className="log-aside",e.textContent=t;a.append(e)})}c(p,"log-view");c(h,"backup-log-view");c(N,"website-log-view");function k(i){const s=i.dataset.sheet,a=i.querySelectorAll("tbody td"),t=localStorage.getItem(s);t&&JSON.parse(t).forEach((e,n)=>{a[n]&&e&&(a[n].textContent=e)}),a.forEach(e=>{e.contentEditable="true",e.addEventListener("input",()=>{const n=[...a].map(o=>o.textContent);localStorage.setItem(s,JSON.stringify(n))})})}document.querySelectorAll(".worksheet").forEach(k);
