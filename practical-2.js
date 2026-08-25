@@ -42,6 +42,82 @@ setupTabs()
 
 
 // ---------------------------------------------------------------
+// 1b. The automatic weather station metadata exercise
+// ---------------------------------------------------------------
+const metadataForm = document.getElementById('metadata-form')
+const metadataOutput = document.getElementById('metadata-output')
+const metadataJson = document.querySelector('#metadata-json code')
+let metadataDownloadUrl
+
+function makeMetadataRecord() {
+  const values = Object.fromEntries(new FormData(metadataForm).entries())
+  const record = {
+    station_id: values.stationId,
+    station_name: values.stationName,
+    title: values.title,
+    abstract: values.abstract,
+    country: values.country,
+    country_code: values.countryCode.toUpperCase(),
+    location: {
+      latitude: Number(values.latitude),
+      longitude: Number(values.longitude),
+      elevation_m: Number(values.elevationM),
+      crs: values.crs
+    },
+    temporal_coverage: {
+      from: values.startDate,
+      to: values.endDate || null,
+      update_frequency: values.updateFrequency,
+      time_zone: values.timeZone
+    },
+    variables: values.variables.split(',').map(variable => variable.trim()).filter(Boolean),
+    data_format: values.dataFormat,
+    organisation: values.organisation,
+    contact: {
+      name: values.contactName,
+      email: values.contactEmail
+    },
+    access: values.access,
+    licence: values.license,
+    keywords: values.keywords.split(',').map(keyword => keyword.trim()).filter(Boolean)
+  }
+
+  return record
+}
+
+metadataForm.addEventListener('submit', event => {
+  event.preventDefault()
+  const record = makeMetadataRecord()
+  metadataJson.textContent = JSON.stringify(record, null, 2)
+  metadataOutput.hidden = false
+  document.getElementById('metadata-status').textContent = 'Record created. Review the JSON with the group.'
+
+  if (metadataDownloadUrl) URL.revokeObjectURL(metadataDownloadUrl)
+  metadataDownloadUrl = URL.createObjectURL(new Blob([JSON.stringify(record, null, 2)], { type: 'application/json' }))
+})
+
+document.getElementById('metadata-download').addEventListener('click', () => {
+  if (!metadataDownloadUrl) return
+  const link = document.createElement('a')
+  link.href = metadataDownloadUrl
+  link.download = 'automatic-weather-station-metadata.json'
+  link.click()
+})
+
+document.getElementById('metadata-reset').addEventListener('click', () => {
+  metadataForm.reset()
+  metadataOutput.hidden = true
+  document.getElementById('metadata-status').textContent = ''
+})
+
+document.getElementById('metadata-answers-toggle').addEventListener('click', event => {
+  const answers = document.getElementById('metadata-answers')
+  answers.hidden = !answers.hidden
+  event.currentTarget.textContent = answers.hidden ? 'See answers' : 'Hide answers'
+})
+
+
+// ---------------------------------------------------------------
 // 2. Fill in each file's tab: its text, and its download button
 //
 //    textContent, not innerHTML: the XML file is full of angle brackets, and

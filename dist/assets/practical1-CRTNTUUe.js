@@ -1,4 +1,4 @@
-import"./style-DpIVo_gF.js";import{s as f,a as u}from"./shared-eRITiLAf.js";const p=`=================================================================
+import"./style-C-jTnZ6Z.js";import{s as f,a as u}from"./shared-eRITiLAf.js";const p=`=================================================================
  OCEAN PORTAL SERVER - system log
  Host: ocean-portal-01      Timezone: UTC+12
  Three days of routine checks, warnings and errors.

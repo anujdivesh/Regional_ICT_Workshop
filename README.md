@@ -20,7 +20,7 @@ reloads on its own.
 
 To stop the server, press `Ctrl` + `C` in the terminal.
 
-## The five tabs
+## The six tabs
 
 1. **Tide Gauge Data** - a chart of sea level at Fongafale, Tuvalu. Built by
    fetching JSON from the ocean-obs API and drawing it with Chart.js. This is
@@ -31,7 +31,11 @@ To stop the server, press `Ctrl` + `C` in the terminal.
    tab, and embedded in the page with an `<iframe>`.
 4. **Embed a Web Page** - the Ocean Portal explorer running inside an
    `<iframe>`, still fully clickable.
-5. **Practical** - the hands-on part, set apart in green. Four boxes where
+5. **Metadata practical** - participants complete a simple metadata record for
+   one automatic weather station, including location, time coverage, variables,
+   organisation, access and licence. The completed record can be downloaded as
+   JSON.
+6. **Practical** - the hands-on part, set apart in green. Four boxes where
    participants paste their own URL and press a button to see it there and
    then. No code editing needed.
 

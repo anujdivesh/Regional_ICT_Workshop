@@ -15,7 +15,8 @@
   <p class="intro">
     The formats ocean data arrives in - <strong>CSV</strong>, <strong>JSON</strong>,
     <strong>GeoJSON</strong> and <strong>XML</strong>. One tab each: what it is
-    good at, the whole file to read, and a copy to download.
+    good at, the whole file to read, and a copy to download. There is also a
+    metadata exercise for one automatic weather station.
   </p>
 
   <div class="tabs">
@@ -23,7 +24,8 @@
     <button class="tab-button" data-tab="json">2. JSON</button>
     <button class="tab-button" data-tab="geojson">3. GeoJSON</button>
     <button class="tab-button" data-tab="xml">4. XML</button>
-    <button class="tab-button practical" data-tab="practical">5. Practical</button>
+    <button class="tab-button metadata" data-tab="metadata">5. Metadata practical</button>
+    <button class="tab-button practical" data-tab="practical">6. Practical</button>
   </div>
 
 
@@ -106,7 +108,129 @@
   </div>
 
 
-  <!-- ---------------- TAB 5 - PRACTICAL ---------------- -->
+  <!-- ---------------- TAB 5 - METADATA PRACTICAL ---------------- -->
+  <div id="metadata" class="panel">
+    <h2>Practical - describe an automatic weather station</h2>
+
+    <p>
+      Metadata tells another person what a dataset is, where it came from, and
+      whether they can use it. Complete the short record below for one automatic
+      weather station. Use the example values or replace them with a station
+      from your own organisation. The example answers are hidden until you ask
+      to see them.
+    </p>
+
+    <p>
+      <a class="open-button" href="https://oceandata.spc.int/Home"
+         target="_blank" rel="noopener">Open SPC Data Management System</a>
+    </p>
+
+    <form id="metadata-form" class="metadata-form">
+      <h3>1. Identify the station</h3>
+      <div class="form-grid">
+        <label>Station ID <input name="stationId" placeholder="For example, AWS-VUT-001" required></label>
+        <label>Station name <input name="stationName" placeholder="A clear station name" required></label>
+        <label>Country <input name="country" required></label>
+        <label>Country code <input name="countryCode" maxlength="3" placeholder="Three-letter code" required></label>
+        <label class="wide">Title <input name="title" placeholder="A title for the dataset" required></label>
+        <label class="wide">Abstract
+          <textarea name="abstract" rows="3" placeholder="What was measured, where, and why?" required></textarea>
+        </label>
+      </div>
+
+      <h3>2. Record location and time</h3>
+      <p>
+        Need coordinates? <a class="open-button" href="https://geojson.io"
+           target="_blank" rel="noopener">Open GeoJSON.io</a>
+      </p>
+      <div class="form-grid">
+        <label>Latitude <input name="latitude" type="number" step="any" required></label>
+        <label>Longitude <input name="longitude" type="number" step="any" required></label>
+        <label>Elevation (m) <input name="elevationM" type="number" step="any" required></label>
+        <label>Coordinate system <input name="crs" placeholder="For example, EPSG:4326" required></label>
+        <label>Start date <input name="startDate" type="date" required></label>
+        <label>End date <input name="endDate" type="date"></label>
+        <label>Update frequency
+          <select name="updateFrequency" required>
+            <option value="">Choose one</option>
+            <option>Every hour</option>
+            <option>Every 10 minutes</option>
+            <option>Daily</option>
+            <option>Unknown</option>
+          </select>
+        </label>
+        <label>Time zone <input name="timeZone" placeholder="For example, Pacific/Efate" required></label>
+      </div>
+
+      <h3>3. Describe the measurements and responsibility</h3>
+      <div class="form-grid">
+        <label class="wide">Variables measured <input name="variables" placeholder="Separate variables with commas" required></label>
+        <label>Data format
+          <select name="dataFormat" required>
+            <option value="">Choose one</option>
+            <option>CSV</option>
+            <option>JSON</option>
+            <option>CSV and JSON</option>
+            <option>XML</option>
+          </select>
+        </label>
+        <label>Organisation <input name="organisation" required></label>
+        <label>Contact name <input name="contactName" required></label>
+        <label>Contact email <input name="contactEmail" type="email" required></label>
+        <label>Access
+          <select name="access" required>
+            <option value="">Choose one</option>
+            <option>Open</option>
+            <option>Restricted</option>
+            <option>Private</option>
+          </select>
+        </label>
+        <label>Licence <input name="license" placeholder="For example, CC BY 4.0" required></label>
+        <label class="wide">Keywords <input name="keywords" placeholder="Separate keywords with commas" required></label>
+      </div>
+
+      <p class="note">
+        Check the essentials before generating the record: a unique ID, a clear
+        title, coordinates with a CRS, dates, measured variables, an owner, and
+        access conditions.
+      </p>
+      <button type="submit" class="run-button">Create metadata record</button>
+      <button type="button" id="metadata-reset" class="code-button">Clear form</button>
+      <button type="button" id="metadata-answers-toggle" class="code-button">See answers</button>
+      <p id="metadata-status" class="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="metadata-answers" class="metadata-answers" hidden>
+      <h3>Example answers</h3>
+      <pre><code>station_id: AWS-VUT-001
+station_name: Port Vila Automatic Weather Station
+title: Port Vila automatic weather station observations
+abstract: Hourly weather observations from an automatic weather station at Port Vila, Vanuatu, supporting climate monitoring and local forecasting.
+country: Vanuatu (VUT)
+location: latitude -17.7333, longitude 168.3273, elevation 20 m
+coordinate system: EPSG:4326
+temporal coverage: from 2024-01-01, ongoing
+update frequency: Every hour
+time zone: Pacific/Efate
+variables: air temperature, relative humidity, rainfall, wind speed, wind direction, pressure
+data format: CSV and JSON
+organisation: Vanuatu Meteorology and Geohazards Department
+contact: Workshop data contact, data@example.org
+access: Open
+licence: CC BY 4.0
+keywords: weather, automatic weather station, climate, rainfall, Vanuatu</code></pre>
+    </div>
+
+    <div id="metadata-output" class="metadata-output" hidden>
+      <h3>Metadata record</h3>
+      <p>Read this as if you were receiving the station data for the first time. Is anything important still missing?</p>
+      <pre id="metadata-json"><code></code></pre>
+      <button type="button" id="metadata-download" class="download-button">Download metadata JSON</button>
+    </div>
+  </div>
+
+
+  <!-- ---------------- TAB 6 - PRACTICAL ---------------- -->
   <div id="practical" class="panel">
     <h2>Your turn - plot the data with Python</h2>
 

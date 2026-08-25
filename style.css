@@ -218,6 +218,18 @@ h1 + .intro,
   border-color: #1f8a5f;
 }
 
+.tab-button.metadata {
+  margin-left: 12px;
+  color: #b3541e;
+  font-weight: 600;
+}
+
+.tab-button.metadata:hover,
+.tab-button.metadata.active {
+  color: #8f4318;
+  background: #fff4eb;
+}
+
 /* --- The tab contents --- */
 /* Panels are hidden until their tab is clicked. */
 .panel {
@@ -232,6 +244,73 @@ h1 + .intro,
 .status {
   color: #898781;
   font-size: 14px;
+}
+
+/* --- The automatic weather station metadata exercise --- */
+.metadata-form h3 {
+  margin-top: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-grid .wide {
+  grid-column: 1 / -1;
+}
+
+.form-grid input,
+.form-grid textarea,
+.form-grid select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 9px 10px;
+  font: inherit;
+  font-weight: 400;
+  color: #0b0b0b;
+  background: #fff;
+  border: 1px solid #c3c2b7;
+  border-radius: 3px;
+}
+
+.form-grid input:focus,
+.form-grid textarea:focus,
+.form-grid select:focus {
+  outline: 2px solid #2a78d6;
+  outline-offset: 1px;
+}
+
+.metadata-form .code-button {
+  display: inline-block;
+  margin: 12px 0 0 8px;
+}
+
+.metadata-output {
+  margin-top: 24px;
+}
+
+.metadata-output pre {
+  border-left-color: #1f8a5f;
+}
+
+@media (max-width: 620px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid .wide {
+    grid-column: auto;
+  }
 }
 
 /* The map picture. The plotter returns a big image and each region is a
