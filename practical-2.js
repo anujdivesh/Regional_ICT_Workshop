@@ -49,6 +49,31 @@ const metadataOutput = document.getElementById('metadata-output')
 const metadataJson = document.querySelector('#metadata-json code')
 let metadataDownloadUrl
 
+const metadataAnswers = {
+  stationId: 'AWS-VUT-001',
+  stationName: 'Port Vila Automatic Weather Station',
+  country: 'Vanuatu',
+  countryCode: 'VUT',
+  title: 'Port Vila automatic weather station observations',
+  abstract: 'Hourly weather observations from an automatic weather station at Port Vila, Vanuatu, supporting climate monitoring and local forecasting.',
+  latitude: '-17.7333',
+  longitude: '168.3273',
+  elevationM: '20',
+  crs: 'EPSG:4326',
+  startDate: '2024-01-01',
+  endDate: '',
+  updateFrequency: 'Every hour',
+  timeZone: 'Pacific/Efate',
+  variables: 'air temperature, relative humidity, rainfall, wind speed, wind direction, pressure',
+  dataFormat: 'CSV and JSON',
+  organisation: 'Vanuatu Meteorology and Geohazards Department',
+  contactName: 'Workshop data contact',
+  contactEmail: 'data@example.org',
+  access: 'Open',
+  license: 'CC BY 4.0',
+  keywords: 'weather, automatic weather station, climate, rainfall, Vanuatu'
+}
+
 function makeMetadataRecord() {
   const values = Object.fromEntries(new FormData(metadataForm).entries())
   const record = {
@@ -108,12 +133,20 @@ document.getElementById('metadata-reset').addEventListener('click', () => {
   metadataForm.reset()
   metadataOutput.hidden = true
   document.getElementById('metadata-status').textContent = ''
+  document.getElementById('metadata-answers-toggle').textContent = 'See answers'
 })
 
 document.getElementById('metadata-answers-toggle').addEventListener('click', event => {
-  const answers = document.getElementById('metadata-answers')
-  answers.hidden = !answers.hidden
-  event.currentTarget.textContent = answers.hidden ? 'See answers' : 'Hide answers'
+  const showingAnswers = event.currentTarget.textContent === 'See answers'
+
+  Object.entries(metadataAnswers).forEach(([name, value]) => {
+    metadataForm.elements[name].value = showingAnswers ? value : ''
+  })
+
+  event.currentTarget.textContent = showingAnswers ? 'Clear answers' : 'See answers'
+  document.getElementById('metadata-status').textContent = showingAnswers
+    ? 'Example answers are shown in the form.'
+    : ''
 })
 
 
